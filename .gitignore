@@ -3,5 +3,6 @@ modelos_hmm_pfam
 uniprot_fastas
 control_versiones_uniprot.json
 errores_uniprot.log
+resultados_hmmer
 
 
