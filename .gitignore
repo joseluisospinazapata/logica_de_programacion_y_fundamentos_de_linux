@@ -5,4 +5,5 @@ control_versiones_uniprot.json
 errores_uniprot.log
 resultados_hmmer
 _pycache__
+clases.cpython-314.pyc
 
