@@ -132,3 +132,22 @@ class ResultadoHMMER:
                     }
                     objeto_proteina.añadir_hit(hit_info)
 
+if __name__ == "__main__":
+    # 1. Cargar de golpe todos tus datos bioinformáticos con una sola línea
+    datos_completos = ResultadoHMMER("resultados_hmmer")
+    
+    print(f"--- ANÁLISIS DE MEMORIA ORIENTADA A OBJETOS ---")
+    print(f"Total de proteínas leídas de la carpeta: {len(datos_completos.proteinas)}")
+    print(f"Total de matrices de logos indexados: {len(datos_completos.logos)}\n")
+
+    # 2. Iterar sobre las proteínas y consultar sus datos estructurados
+    for id_prot, proteina in datos_completos.proteinas.items():
+        familias_validas = proteina.obtener_familias_validas(e_value_corte=1e-10)
+        print(f"Proteína: {id_prot}")
+        print(f"  -> Dominios Pfam confiables detectados: {familias_validas}")
+        
+        # Si la proteína tiene hits válidos, buscar los aminoácidos más conservados del logo
+        for fam in familias_validas:
+            if fam in datos_completos.logos:
+                logo_fam = datos_completos.logos[fam]
+        print("-" * 60)
