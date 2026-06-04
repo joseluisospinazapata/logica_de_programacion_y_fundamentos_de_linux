@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte Ejecutivo - Pipeline HMMER & UniProt</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f6f9; color: #333; margin: 0; padding: 30px; }
+        .container { max-width: 1200px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h1 { color: #1a365d; border-bottom: 3px solid #2b6cb0; padding-bottom: 10px; margin-top: 0; }
+        .stats { display: flex; gap: 20px; margin-bottom: 25px; }
+        .card { background: #ebf8ff; border: 1px solid #bee3f8; padding: 15px 25px; border-radius: 8px; flex: 1; text-align: center; }
+        .card h3 { margin: 0; color: #2c5282; font-size: 14px; text-transform: uppercase; }
+        .card p { margin: 5px 0 0 0; font-size: 28px; font-weight: bold; color: #2b6cb0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
+        th { background-color: #2b6cb0; color: white; text-align: left; padding: 12px; font-weight: 600; }
+        td { padding: 12px; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
+        tr:hover { background-color: #f7fafc; }
+        .badge-id { background: #edf2f7; padding: 4px 8px; border-radius: 4px; font-family: monospace; font-weight: bold; color: #4a5568; }
+        .badge-fam { background: #e2e8f0; padding: 4px 8px; border-radius: 4px; font-family: monospace; color: #2d3748; font-weight: 500; }
+        .badge-ev { background: #c6f6d5; color: #22543d; padding: 3px 8px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+        .logo-box { background: #fffaf0; border: 1px solid #feebc8; padding: 6px; border-radius: 6px; font-size: 12px; font-family: monospace; color: #dd6b20; }
+        footer { margin-top: 40px; text-align: center; font-size: 12px; color: #a0aec0; padding-top: 20px; border-top: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🧬 Resumen Ejecutivo: Mapeo de Familias Proteicas</h1>
+    <div class="stats">
+        <div class="card"><h3>Proteínas Analizadas</h3><p>49</p></div>
+        <div class="card"><h3>Familias Pfam Identificadas</h3><p>13</p></div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID UniProt</th>
+                <th>Familia Identificada (Hit)</th>
+                <th>E-Value</th>
+                <th>Score (bits)</th>
+                <th>Rango de Alineamiento</th>
+                <th>Residuos Conservados del Logo (Muestra)</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td><span class='badge-id'>P00519</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>6.4e-104</span></td>
+                <td>338.0</td>
+                <td>AA: 242 - 492</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P00519</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>1.6e-50</span></td>
+                <td>163.1</td>
+                <td>AA: 244 - 491</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P00519</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>2.2e-27</span></td>
+                <td>86.4</td>
+                <td>AA: 127 - 202</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P00519</span></td>
+                <td><span class='badge-fam'>SH3_1</span></td>
+                <td><span class='badge-ev'>7.1e-16</span></td>
+                <td>49.0</td>
+                <td>AA: 67 - 113</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P00533</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>7.5e-95</span></td>
+                <td>308.3</td>
+                <td>AA: 714 - 966</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P00533</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>2.5e-41</span></td>
+                <td>133.0</td>
+                <td>AA: 712 - 964</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P01111</span></td>
+                <td><span class='badge-fam'>Ras</span></td>
+                <td><span class='badge-ev'>8.3e-63</span></td>
+                <td>202.1</td>
+                <td>AA: 5 - 164</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P01112</span></td>
+                <td><span class='badge-fam'>Ras</span></td>
+                <td><span class='badge-ev'>1.2e-63</span></td>
+                <td>204.8</td>
+                <td>AA: 5 - 164</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P01116</span></td>
+                <td><span class='badge-fam'>Ras</span></td>
+                <td><span class='badge-ev'>8.6e-64</span></td>
+                <td>205.3</td>
+                <td>AA: 5 - 164</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P04049</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>1.2e-65</span></td>
+                <td>212.7</td>
+                <td>AA: 351 - 605</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P04049</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>2.2e-53</span></td>
+                <td>172.6</td>
+                <td>AA: 353 - 604</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P06241</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>6.2e-99</span></td>
+                <td>321.7</td>
+                <td>AA: 271 - 520</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P06241</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>1e-48</span></td>
+                <td>157.2</td>
+                <td>AA: 273 - 516</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P06241</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>6.3e-32</span></td>
+                <td>100.9</td>
+                <td>AA: 149 - 231</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P06241</span></td>
+                <td><span class='badge-fam'>SH3_1</span></td>
+                <td><span class='badge-ev'>1.8e-23</span></td>
+                <td>73.3</td>
+                <td>AA: 88 - 135</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P06241</span></td>
+                <td><span class='badge-fam'>SH3_1</span></td>
+                <td><span class='badge-ev'>1.8e-23</span></td>
+                <td>73.3</td>
+                <td>AA: 146 - 156</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P07947</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>2.9e-97</span></td>
+                <td>316.2</td>
+                <td>AA: 278 - 526</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P07947</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>3.4e-46</span></td>
+                <td>149.0</td>
+                <td>AA: 280 - 522</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P07947</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>3.4e-31</span></td>
+                <td>98.6</td>
+                <td>AA: 158 - 240</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P07947</span></td>
+                <td><span class='badge-fam'>SH3_1</span></td>
+                <td><span class='badge-ev'>6.2e-22</span></td>
+                <td>68.4</td>
+                <td>AA: 97 - 144</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P07947</span></td>
+                <td><span class='badge-fam'>SH3_1</span></td>
+                <td><span class='badge-ev'>6.2e-22</span></td>
+                <td>68.4</td>
+                <td>AA: 155 - 164</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P08047</span></td>
+                <td><span class='badge-fam'>zf-C2H2</span></td>
+                <td><span class='badge-ev'>2.3e-14</span></td>
+                <td>44.5</td>
+                <td>AA: 605 - 610</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P08047</span></td>
+                <td><span class='badge-fam'>zf-C2H2</span></td>
+                <td><span class='badge-ev'>2.3e-14</span></td>
+                <td>44.5</td>
+                <td>AA: 626 - 650</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P08047</span></td>
+                <td><span class='badge-fam'>zf-C2H2</span></td>
+                <td><span class='badge-ev'>2.3e-14</span></td>
+                <td>44.5</td>
+                <td>AA: 656 - 680</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P08047</span></td>
+                <td><span class='badge-fam'>zf-C2H2</span></td>
+                <td><span class='badge-ev'>2.3e-14</span></td>
+                <td>44.5</td>
+                <td>AA: 686 - 708</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr><tr><td><span class='badge-id'>P0A6W5</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr>
+            <tr>
+                <td><span class='badge-id'>P0A6Y8</span></td>
+                <td><span class='badge-fam'>HSP70</span></td>
+                <td><span class='badge-ev'>2.2e-276</span></td>
+                <td>909.0</td>
+                <td>AA: 4 - 602</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr><tr><td><span class='badge-id'>P0A799</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr><tr><td><span class='badge-id'>P0A7Y4</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr><tr><td><span class='badge-id'>P0A8V2</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr>
+            <tr>
+                <td><span class='badge-id'>P0A9Q7</span></td>
+                <td><span class='badge-fam'>Aldedh</span></td>
+                <td><span class='badge-ev'>4.4e-32</span></td>
+                <td>102.4</td>
+                <td>AA: 5 - 400</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr><tr><td><span class='badge-id'>P10242</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr>
+            <tr>
+                <td><span class='badge-id'>P11142</span></td>
+                <td><span class='badge-fam'>HSP70</span></td>
+                <td><span class='badge-ev'>8.7e-268</span></td>
+                <td>880.6</td>
+                <td>AA: 6 - 612</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr><tr><td><span class='badge-id'>P11473</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr><tr><td><span class='badge-id'>P12814</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr>
+            <tr>
+                <td><span class='badge-id'>P12931</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>4.4e-98</span></td>
+                <td>318.9</td>
+                <td>AA: 271 - 518</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P12931</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>1.1e-47</span></td>
+                <td>153.9</td>
+                <td>AA: 273 - 515</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P12931</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>6.9e-31</span></td>
+                <td>97.6</td>
+                <td>AA: 151 - 233</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P12931</span></td>
+                <td><span class='badge-fam'>SH3_1</span></td>
+                <td><span class='badge-ev'>1.3e-20</span></td>
+                <td>64.1</td>
+                <td>AA: 90 - 137</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P12931</span></td>
+                <td><span class='badge-fam'>SH3_1</span></td>
+                <td><span class='badge-ev'>1.3e-20</span></td>
+                <td>64.1</td>
+                <td>AA: 148 - 158</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr><tr><td><span class='badge-id'>P12956</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr>
+            <tr>
+                <td><span class='badge-id'>P13569</span></td>
+                <td><span class='badge-fam'>ABC_tran</span></td>
+                <td><span class='badge-ev'>4e-60</span></td>
+                <td>193.7</td>
+                <td>AA: 441 - 575</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P13569</span></td>
+                <td><span class='badge-fam'>ABC_tran</span></td>
+                <td><span class='badge-ev'>4e-60</span></td>
+                <td>193.7</td>
+                <td>AA: 1227 - 1373</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P15056</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>6.6e-66</span></td>
+                <td>213.5</td>
+                <td>AA: 457 - 712</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P15056</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>1.4e-53</span></td>
+                <td>173.2</td>
+                <td>AA: 458 - 712</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr><tr><td><span class='badge-id'>P15924</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr>
+            <tr>
+                <td><span class='badge-id'>P16234</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>8.2e-98</span></td>
+                <td>318.0</td>
+                <td>AA: 594 - 948</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P16234</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>3.8e-46</span></td>
+                <td>148.8</td>
+                <td>AA: 596 - 689</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P16234</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>3.8e-46</span></td>
+                <td>148.8</td>
+                <td>AA: 778 - 946</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P16234</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>3.7e-20</span></td>
+                <td>63.4</td>
+                <td>AA: 38 - 105</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P16234</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>3.7e-20</span></td>
+                <td>63.4</td>
+                <td>AA: 140 - 173</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P16234</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>3.7e-20</span></td>
+                <td>63.4</td>
+                <td>AA: 226 - 293</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P16234</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>3.7e-20</span></td>
+                <td>63.4</td>
+                <td>AA: 339 - 405</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P16234</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>3.7e-20</span></td>
+                <td>63.4</td>
+                <td>AA: 432 - 448</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P19838</span></td>
+                <td><span class='badge-fam'>Ank</span></td>
+                <td><span class='badge-ev'>2.3e-31</span></td>
+                <td>97.7</td>
+                <td>AA: 542 - 563</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P19838</span></td>
+                <td><span class='badge-fam'>Ank</span></td>
+                <td><span class='badge-ev'>2.3e-31</span></td>
+                <td>97.7</td>
+                <td>AA: 583 - 612</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P19838</span></td>
+                <td><span class='badge-fam'>Ank</span></td>
+                <td><span class='badge-ev'>2.3e-31</span></td>
+                <td>97.7</td>
+                <td>AA: 615 - 640</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P19838</span></td>
+                <td><span class='badge-fam'>Ank</span></td>
+                <td><span class='badge-ev'>2.3e-31</span></td>
+                <td>97.7</td>
+                <td>AA: 650 - 680</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P19838</span></td>
+                <td><span class='badge-fam'>Ank</span></td>
+                <td><span class='badge-ev'>2.3e-31</span></td>
+                <td>97.7</td>
+                <td>AA: 685 - 716</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P19838</span></td>
+                <td><span class='badge-fam'>Ank</span></td>
+                <td><span class='badge-ev'>2.3e-31</span></td>
+                <td>97.7</td>
+                <td>AA: 718 - 749</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P19838</span></td>
+                <td><span class='badge-fam'>Ank</span></td>
+                <td><span class='badge-ev'>2.3e-31</span></td>
+                <td>97.7</td>
+                <td>AA: 772 - 783</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P21802</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>2.3e-105</span></td>
+                <td>342.8</td>
+                <td>AA: 481 - 757</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P21802</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>8.5e-48</span></td>
+                <td>154.2</td>
+                <td>AA: 378 - 419</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P21802</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>8.5e-48</span></td>
+                <td>154.2</td>
+                <td>AA: 483 - 755</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P21802</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>1.4e-28</span></td>
+                <td>90.4</td>
+                <td>AA: 50 - 119</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P21802</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>1.4e-28</span></td>
+                <td>90.4</td>
+                <td>AA: 166 - 239</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P21802</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>1.4e-28</span></td>
+                <td>90.4</td>
+                <td>AA: 270 - 349</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr><tr><td><span class='badge-id'>P22681</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr>
+            <tr>
+                <td><span class='badge-id'>P27361</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>2.4e-70</span></td>
+                <td>228.2</td>
+                <td>AA: 42 - 330</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P27361</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>2.5e-36</span></td>
+                <td>116.6</td>
+                <td>AA: 45 - 241</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P28482</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>1.6e-69</span></td>
+                <td>225.4</td>
+                <td>AA: 25 - 313</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P28482</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>3.2e-37</span></td>
+                <td>119.5</td>
+                <td>AA: 30 - 224</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P29317</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>5.2e-104</span></td>
+                <td>338.3</td>
+                <td>AA: 614 - 871</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P29317</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>5.2e-49</span></td>
+                <td>158.2</td>
+                <td>AA: 615 - 868</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P29317</span></td>
+                <td><span class='badge-fam'>fn3</span></td>
+                <td><span class='badge-ev'>2.9e-31</span></td>
+                <td>98.9</td>
+                <td>AA: 331 - 420</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P29317</span></td>
+                <td><span class='badge-fam'>fn3</span></td>
+                <td><span class='badge-ev'>2.9e-31</span></td>
+                <td>98.9</td>
+                <td>AA: 439 - 524</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P29353</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>4.7e-21</span></td>
+                <td>66.1</td>
+                <td>AA: 488 - 559</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P31749</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>1.9e-82</span></td>
+                <td>267.9</td>
+                <td>AA: 150 - 408</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P31749</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>6.4e-38</span></td>
+                <td>121.8</td>
+                <td>AA: 152 - 391</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr><tr><td><span class='badge-id'>P35222</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr><tr><td><span class='badge-id'>P39451</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr>
+            <tr>
+                <td><span class='badge-id'>P40763</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>6.4e-13</span></td>
+                <td>40.0</td>
+                <td>AA: 584 - 651</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P42224</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>2.3e-11</span></td>
+                <td>35.1</td>
+                <td>AA: 126 - 170</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P42224</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>2.3e-11</span></td>
+                <td>35.1</td>
+                <td>AA: 299 - 314</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P42224</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>2.3e-11</span></td>
+                <td>35.1</td>
+                <td>AA: 578 - 622</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P42681</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>5.6e-100</span></td>
+                <td>325.1</td>
+                <td>AA: 272 - 518</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P42681</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>1.6e-47</span></td>
+                <td>153.3</td>
+                <td>AA: 274 - 518</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P42681</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>4.8e-27</span></td>
+                <td>85.3</td>
+                <td>AA: 150 - 231</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P42681</span></td>
+                <td><span class='badge-fam'>SH3_1</span></td>
+                <td><span class='badge-ev'>2.3e-16</span></td>
+                <td>50.5</td>
+                <td>AA: 88 - 134</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P42681</span></td>
+                <td><span class='badge-fam'>SH3_1</span></td>
+                <td><span class='badge-ev'>2.3e-16</span></td>
+                <td>50.5</td>
+                <td>AA: 205 - 219</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P42684</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>2.6e-102</span></td>
+                <td>332.8</td>
+                <td>AA: 288 - 538</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P42684</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>2.5e-48</span></td>
+                <td>156.0</td>
+                <td>AA: 290 - 536</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P42684</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>5.8e-28</span></td>
+                <td>88.2</td>
+                <td>AA: 173 - 248</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P42684</span></td>
+                <td><span class='badge-fam'>SH3_1</span></td>
+                <td><span class='badge-ev'>2.3e-15</span></td>
+                <td>47.4</td>
+                <td>AA: 113 - 159</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P43403</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>7e-97</span></td>
+                <td>315.0</td>
+                <td>AA: 342 - 592</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P43403</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>4.8e-47</span></td>
+                <td>151.8</td>
+                <td>AA: 343 - 586</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P43403</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>6e-46</span></td>
+                <td>145.9</td>
+                <td>AA: 10 - 87</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P43403</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>6e-46</span></td>
+                <td>145.9</td>
+                <td>AA: 163 - 238</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P43405</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>5.8e-95</span></td>
+                <td>308.7</td>
+                <td>AA: 374 - 623</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P43405</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>7.2e-51</span></td>
+                <td>164.3</td>
+                <td>AA: 374 - 620</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P43405</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>1.1e-48</span></td>
+                <td>154.6</td>
+                <td>AA: 15 - 92</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P43405</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>1.1e-48</span></td>
+                <td>154.6</td>
+                <td>AA: 168 - 244</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr><tr><td><span class='badge-id'>P61244</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr><tr><td><span class='badge-id'>P62937</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr>
+            <tr>
+                <td><span class='badge-id'>P62993</span></td>
+                <td><span class='badge-fam'>SH3_1</span></td>
+                <td><span class='badge-ev'>8.5e-39</span></td>
+                <td>122.4</td>
+                <td>AA: 4 - 50</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P62993</span></td>
+                <td><span class='badge-fam'>SH3_1</span></td>
+                <td><span class='badge-ev'>8.5e-39</span></td>
+                <td>122.4</td>
+                <td>AA: 54 - 65</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P62993</span></td>
+                <td><span class='badge-fam'>SH3_1</span></td>
+                <td><span class='badge-ev'>8.5e-39</span></td>
+                <td>122.4</td>
+                <td>AA: 162 - 206</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P62993</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>4.5e-29</span></td>
+                <td>91.8</td>
+                <td>AA: 60 - 135</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 416 - 486</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 1688 - 1758</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 1781 - 1844</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 1873 - 1945</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 1965 - 2037</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 2059 - 2129</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 2162 - 2226</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 2253 - 2315</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 2349 - 2410</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 2445 - 2514</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 2544 - 2611</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 2638 - 2701</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 2737 - 2800</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 2836 - 2899</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 2935 - 3000</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 3029 - 3103</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 3124 - 3196</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 3220 - 3289</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 3309 - 3376</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 3410 - 3478</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 3499 - 3565</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>ig</span></td>
+                <td><span class='badge-ev'>4.7e-209</span></td>
+                <td>668.8</td>
+                <td>AA: 3583 - 3652</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 285 - 305</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 325 - 345</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 731 - 739</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 778 - 802</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 829 - 850</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 854 - 861</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 1125 - 1135</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 1168 - 1197</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 1223 - 1245</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 1248 - 1256</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 1530 - 1538</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 1543 - 1549</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 1572 - 1601</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 1627 - 1649</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 1652 - 1660</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 3848 - 3879</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 3888 - 3920</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 4108 - 4138</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>P98160</span></td>
+                <td><span class='badge-fam'>EGF</span></td>
+                <td><span class='badge-ev'>4.2e-12</span></td>
+                <td>37.5</td>
+                <td>AA: 4147 - 4174</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>Q06187</span></td>
+                <td><span class='badge-fam'>PK_Tyr_Ser-Thr</span></td>
+                <td><span class='badge-ev'>1.5e-100</span></td>
+                <td>327.0</td>
+                <td>AA: 402 - 650</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>Q06187</span></td>
+                <td><span class='badge-fam'>Pkinase</span></td>
+                <td><span class='badge-ev'>8.3e-50</span></td>
+                <td>160.8</td>
+                <td>AA: 404 - 648</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>Q06187</span></td>
+                <td><span class='badge-fam'>SH2</span></td>
+                <td><span class='badge-ev'>1e-24</span></td>
+                <td>77.9</td>
+                <td>AA: 281 - 362</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr>
+            <tr>
+                <td><span class='badge-id'>Q06187</span></td>
+                <td><span class='badge-fam'>SH3_1</span></td>
+                <td><span class='badge-ev'>3.5e-20</span></td>
+                <td>62.8</td>
+                <td>AA: 220 - 266</td>
+                <td><div class='logo-box'>Matriz N/A</div></td>
+            </tr><tr><td><span class='badge-id'>Q13485</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr><tr><td><span class='badge-id'>Q92793</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr><tr><td><span class='badge-id'>Q9Y2T1</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr>
+        </tbody>
+    </table>
+    <footer>Reporte generado automáticamente por el Pipeline Científico Integrado</footer>
+</div>
+</body>
+</html>
