@@ -1,97 +1,134 @@
 import os
+import re
 
 class FamiliaLogo:
-    """Clase que almacena la matriz de información de un logotipo generado por hmmlogo."""
+    """Clase que almacena la matriz de información de un logotipo y genera un renderizado nativo en HTML."""
     def __init__(self, ruta_logo):
-        self.id_familia = os.path.basename(ruta_logo).replace("_logo.txt", "")
+        self.id_familia = os.path.basename(ruta_logo).replace("_logo.txt", "").replace("('", "").replace("', '')", "")
         self.posiciones = {}  
         self._parsear_archivo_logo(ruta_logo)
 
     def _parsear_archivo_logo(self, ruta):
         if not os.path.exists(ruta):
             return
+        
         with open(ruta, "r", encoding="utf-8") as f:
             lineas = f.readlines()
             
         aminoacidos = []
         for linea in lineas:
-            # Saltar líneas informativas iniciales o de transición de gaps
             if linea.startswith("pos") or "m->i" in linea or linea.strip().startswith("#"):
                 continue
-            
             partes = linea.split()
             if not partes:
                 continue
-                
-            # Identificar la cabecera de letras de los aminoácidos (ej: "A C D E F G...")
+            
             if len(aminoacidos) == 0 and any(aa in partes for aa in ["A", "C", "D", "E"]):
                 aminoacidos = partes
                 continue
             
-            # CORRECCIÓN: Comprobar si el primer elemento de la lista (el índice de posición) es un número
             if partes[0].isdigit() and len(partes) > len(aminoacidos):
                 pos = int(partes[0])
-                # Mapear los valores numéricos de bits a cada aminoácido correspondiente
                 valores = [float(x) for x in partes[1:len(aminoacidos)+1]]
                 self.posiciones[pos] = dict(zip(aminoacidos, valores))
 
     def obtener_residuos_principales(self, posicion, top_n=3):
-        """Devuelve los N aminoácidos más conservados en una posición específica."""
         if posicion not in self.posiciones:
             return []
-        # Ordenar los residuos de mayor a menor puntuación en bits
         residuos_ordenados = sorted(
             self.posiciones[posicion].items(), key=lambda item: item[1], reverse=True
         )
-        return [f"{res} ({val:.2f} b)" for res, val in residuos_ordenados if val > 0][:top_n]
+        return [(res, val) for res, val in residuos_ordenados if val > 0][:top_n]
 
 
 class ProteinaEscaneada:
-    """Clase que representa una proteína y almacena sus hits/familias identificadas."""
+    """Clase que representa una proteína y almacena sus hits, tablas crudas y alineamientos completos."""
     def __init__(self, nombre_id):
         self.id_uniprot = nombre_id
         self.hits = []       
-        self.reporte_completo = ""  
+        self.reporte_completo = "No se encontró archivo de alineamiento .txt"  
+        self.tabla_cruda = "No se encontró archivo de salida tabular .tbl"
 
     def añadir_hit(self, datos_hit):
         self.hits.append(datos_hit)
 
-    def obtener_familias_validas(self, e_value_corte=1e-5):
-        return [hit["target_name"] for hit in self.hits if float(hit["e_value"]) <= e_value_corte]
-
 
 class ResultadoHMMER:
-    """Clase contenedora principal que agrupa, parsea y exporta los datos."""
-    def __init__(self, carpeta_resultados="resultados_hmmer"):
+    """Clase contenedora principal que agrupa, parsea y exporta todo el pipeline."""
+    def __init__(self, carpeta_resultados="resultados_hmmer", carpeta_modelos_origen="modelos_hmm_pfam"):
         self.carpeta = carpeta_resultados
+        self.carpeta_modelos = carpeta_modelos_origen
         self.proteinas = {}  
         self.logos = {}      
         self._cargar_y_parsear_todo()
 
+    def _limpiar_id_uniprot(self, nombre_archivo) -> str:
+        """Extrae de forma robusta el identificador de UniProt (6 o 10 caracteres)
+
+        eliminando prefijos como 'tabla_' o 'resultado_' y cualquier extensión.
+        """
+        # Eliminar los prefijos conocidos del pipeline
+        nombre_limpio = nombre_archivo.replace("tabla_", "").replace("resultado_", "")
+        # Captura el código de UniProt estándar (ej. P00519, Q06187, P0A6Y8) ignorando lo que venga después
+        match = re.search(r'([A-Z0-9]{6,10})', nombre_limpio)
+        if match:
+            return match.group(1)
+        # Si no encuentra el patrón, remueve la extensión final como respaldo de seguridad
+        return os.path.splitext(nombre_limpio)[0]
+
+    def _extraer_nombre_modelo_hmm(self, ruta_hmm) -> str:
+        try:
+            with open(ruta_hmm, "r", encoding="utf-8", errors="ignore") as f:
+                for linea in f:
+                    if linea.startswith("NAME"):
+                        return linea.split()[-1].strip()
+        except Exception:
+            pass
+        return ""
+
     def _cargar_y_parsear_todo(self):
         if not os.path.exists(self.carpeta):
+            print(f"[Error] La carpeta de resultados '{self.carpeta}' no existe.")
             return
 
+        # 1. Parsear tablas (.tbl) de manera robusta
         for archivo in os.listdir(self.carpeta):
             if archivo.startswith("tabla_") and archivo.endswith(".tbl"):
-                id_prot = archivo.replace("tabla_", "").replace(".tbl", "")
+                id_prot = self._limpiar_id_uniprot(archivo)
                 if id_prot not in self.proteinas:
                     self.proteinas[id_prot] = ProteinaEscaneada(id_prot)
-                self._parsear_archivo_tabla(os.path.join(self.carpeta, archivo), self.proteinas[id_prot])
+                
+                ruta_tbl = os.path.join(self.carpeta, archivo)
+                with open(ruta_tbl, "r", encoding="utf-8") as f:
+                    self.proteinas[id_prot].tabla_cruda = f.read()
+                self._parsear_archivo_tabla(ruta_tbl, self.proteinas[id_prot])
 
-            elif archivo.startswith("resultado_") and archivo.endswith(".txt"):
-                id_prot = archivo.replace("resultado_", "").replace(".txt", "")
+        # 2. Sincronizar reportes (.txt) en los mismos objetos creados
+        for archivo in os.listdir(self.carpeta):
+            if archivo.startswith("resultado_") and archivo.endswith(".txt"):
+                id_prot = self._limpiar_id_uniprot(archivo)
                 if id_prot not in self.proteinas:
                     self.proteinas[id_prot] = ProteinaEscaneada(id_prot)
                 with open(os.path.join(self.carpeta, archivo), "r", encoding="utf-8") as f:
                     self.proteinas[id_prot].reporte_completo = f.read()
 
+        # 3. Parsear subcarpeta de logos_hmm e indexar
         ruta_logos = os.path.join(self.carpeta, "logos_hmm")
         if os.path.exists(ruta_logos):
+            print(f"-> Indexando matrices locales de frecuencias...")
             for archivo in os.listdir(ruta_logos):
                 if archivo.endswith("_logo.txt"):
-                    objeto_logo = FamiliaLogo(os.path.join(ruta_logos, archivo))
-                    self.logos[objeto_logo.id_familia] = objeto_logo
+                    id_fam = archivo.replace("_logo.txt", "").replace("('", "").replace("', '')", "")
+                    ruta_archivo_logo = os.path.join(ruta_logos, archivo)
+                    ruta_hmm_original = os.path.join(self.carpeta_modelos, f"{id_fam}")
+                    
+                    objeto_logo = FamiliaLogo(ruta_archivo_logo)
+                    self.logos[id_fam] = objeto_logo
+                    
+                    if os.path.exists(ruta_hmm_original):
+                        nombre_corto = self._extraer_nombre_modelo_hmm(ruta_hmm_original)
+                        if nombre_corto:
+                            self.logos[nombre_corto] = objeto_logo
 
     def _parsear_archivo_tabla(self, ruta_archivo, objeto_proteina):
         with open(ruta_archivo, "r", encoding="utf-8") as f:
@@ -103,112 +140,205 @@ class ResultadoHMMER:
                     hit_info = {
                         "target_name": partes[0],      
                         "target_accession": partes[1], 
-                        "e_value": partes[6],          
-                        "score": float(partes[7]),     
+                        "e_value": partes[4],          
+                        "score": float(partes[5]),     
                         "ali_from": int(partes[17]),   
                         "ali_to": int(partes[18]),     
                     }
                     objeto_proteina.añadir_hit(hit_info)
 
     def exportar_resumen_html(self, nombre_salida="resumen_ejecutivo_hmmer.html"):
-        """Genera un reporte ejecutivo en HTML con diseño responsivo y moderno."""
-        print(f"-> Generando reporte ejecutivo en HTML: '{nombre_salida}'...")
+        print(f"-> Ensamblando interfaz web interactiva completa para {len(self.proteinas)} secuencias...")
         
         html_plantilla = """<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Reporte Ejecutivo - Pipeline HMMER & UniProt</title>
+    <title>Dashboard Analítico HMMER Nativo</title>
     <style>
-        body {{ font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f6f9; color: #333; margin: 0; padding: 30px; }}
-        .container {{ max-width: 1200px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }}
-        h1 {{ color: #1a365d; border-bottom: 3px solid #2b6cb0; padding-bottom: 10px; margin-top: 0; }}
-        .stats {{ display: flex; gap: 20px; margin-bottom: 25px; }}
-        .card {{ background: #ebf8ff; border: 1px solid #bee3f8; padding: 15px 25px; border-radius: 8px; flex: 1; text-align: center; }}
-        .card h3 {{ margin: 0; color: #2c5282; font-size: 14px; text-transform: uppercase; }}
-        .card p {{ margin: 5px 0 0 0; font-size: 28px; font-weight: bold; color: #2b6cb0; }}
-        table {{ width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }}
-        th {{ background-color: #2b6cb0; color: white; text-align: left; padding: 12px; font-weight: 600; }}
-        td {{ padding: 12px; border-bottom: 1px solid #e2e8f0; font-size: 14px; }}
-        tr:hover {{ background-color: #f7fafc; }}
-        .badge-id {{ background: #edf2f7; padding: 4px 8px; border-radius: 4px; font-family: monospace; font-weight: bold; color: #4a5568; }}
-        .badge-fam {{ background: #e2e8f0; padding: 4px 8px; border-radius: 4px; font-family: monospace; color: #2d3748; font-weight: 500; }}
-        .badge-ev {{ background: #c6f6d5; color: #22543d; padding: 3px 8px; border-radius: 20px; font-size: 12px; font-weight: bold; }}
-        .logo-box {{ background: #fffaf0; border: 1px solid #feebc8; padding: 6px; border-radius: 6px; font-size: 12px; font-family: monospace; color: #dd6b20; }}
-        footer {{ margin-top: 40px; text-align: center; font-size: 12px; color: #a0aec0; padding-top: 20px; border-top: 1px solid #e2e8f0; }}
+        body {{ font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; color: #2d3748; margin: 0; padding: 20px; }}
+        .container {{ max-width: 1300px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }}
+        h1 {{ color: #1a365d; border-bottom: 3px solid #3182ce; padding-bottom: 10px; margin-top: 0; }}
+        
+        .collapsible {{ background-color: #2b6cb0; color: white; cursor: pointer; padding: 16px; width: 100%; border: none; text-align: left; outline: none; font-size: 16px; font-weight: bold; margin-top: 10px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }}
+        .active, .collapsible:hover {{ background-color: #1a365d; }}
+        .collapsible:after {{ content: '\\002B'; font-size: 20px; font-weight: bold; float: right; margin-left: 5px; }}
+        .active:after {{ content: "\\2212"; }}
+        .content {{ padding: 0 18px; display: none; overflow: hidden; background-color: #fff; border: 1px solid #e2e8f0; border-top: none; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }}
+        
+        .tab {{ overflow: hidden; border-bottom: 2px solid #e2e8f0; margin-top: 15px; display: flex; gap: 5px; }}
+        .tab button {{ background-color: #edf2f7; color: #4a5568; border: none; outline: none; cursor: pointer; padding: 10px 20px; font-size: 14px; font-weight: 600; border-top-left-radius: 6px; border-top-right-radius: 6px; transition: 0.2s; }}
+        .tab button:hover {{ background-color: #e2e8f0; }}
+        .tab button.active-sub {{ background-color: #3182ce; color: white; }}
+        .tabcontent {{ display: none; padding: 15px 0; }}
+        
+        pre {{ background-color: #1a202c; color: #edf2f7; padding: 15px; border-radius: 6px; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 13px; max-height: 400px; }}
+        table {{ width: 100%; border-collapse: collapse; margin-top: 10px; }}
+        th {{ background-color: #4a5568; color: white; padding: 10px; text-align: left; font-size: 14px; }}
+        td {{ padding: 10px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }}
+        
+        .logo-css-bar {{ display: flex; align-items: flex-end; gap: 4px; background: #1a202c; border: 1px solid #e2e8f0; padding: 25px; border-radius: 8px; margin-top: 15px; overflow-x: auto; min-height: 180px; }}
+        .columna-logo {{ display: flex; flex-direction: column; align-items: center; width: 24px; font-family: monospace; }}
+        .letra-aa {{ font-weight: bold; font-size: 15px; margin-bottom: 4px; }}
+        .barra-bits {{ width: 100%; border-radius: 2px; transition: 0.3s; min-height: 2px; }}
+        .pos-num {{ font-size: 10px; color: #a0aec0; margin-top: 4px; border-top: 1px solid #4a5568; width: 100%; text-align: center; padding-top: 2px; }}
+        .badge {{ background: #e2e8f0; color: #2d3748; padding: 3px 8px; border-radius: 4px; font-family: monospace; font-weight: bold; }}
+        .badge-ev {{ background: #fed7d7; color: #9b2c2c; padding: 3px 8px; border-radius: 12px; font-weight: bold; }}
+        footer {{ text-align: center; margin-top: 40px; font-size: 12px; color: #718096; border-top: 1px solid #e2e8f0; padding-top: 15px; }}
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>🧬 Resumen Ejecutivo: Mapeo de Familias Proteicas</h1>
-    <div class="stats">
-        <div class="card"><h3>Proteínas Analizadas</h3><p>{total_prot}</p></div>
-        <div class="card"><h3>Familias Pfam Identificadas</h3><p>{total_fam}</p></div>
-    </div>
-    <table>
-        <thead>
-            <tr>
-                <th>ID UniProt</th>
-                <th>Familia Identificada (Hit)</th>
-                <th>E-Value</th>
-                <th>Score (bits)</th>
-                <th>Rango de Alineamiento</th>
-                <th>Residuos Conservados del Logo (Muestra)</th>
-            </tr>
-        </thead>
-        <tbody>
+    <h1>🧬 Dashboard de Identificación de Dominios (Renderizado Nativo)</h1>
+    <p>Haz clic sobre cualquiera de las secuencias de proteínas mapeadas a continuación para inspeccionar sus alineamientos detallados, tablas de hits y el perfil de conservación local sin dependencias.</p>
 """
-        filas = ""
-        familias_unicas = set()
+
+        cuerpo_html = ""
+        for index, (id_prot, proteina) in enumerate(sorted(self.proteinas.items())):
+            total_hits = len(proteina.hits)
+            
+            cuerpo_html += f"""
+    <button class="collapsible">Proteína / Secuencia: {id_prot} <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: {total_hits}</span></button>
+    <div class="content">
+        <div class="tab">
+            <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_{index}')">Tabla de Hits (.tbl)</button>
+            <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_{index}')">Alineamiento Completo (.txt)</button>
+            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_{index}')">Perfil de Conservación (HTML Nativo)</button>
+        </div>
         
-        for id_prot, proteina in sorted(self.proteinas.items()):
+        <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
+        <div id="hits_{index}" class="tabcontent" style="display:block;">
+            <h3>Resultados tabulares filtrados de HMMER</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Familia (NAME)</th>
+                        <th>Acceso (ACC)</th>
+                        <th>E-Value Global</th>
+                        <th>Score (bits)</th>
+                        <th>Coordenadas Dominio</th>
+                    </tr>
+                </thead>
+                <tbody>"""
+                
             if not proteina.hits:
-                filas += f"<tr><td><span class='badge-id'>{id_prot}</span></td><td colspan='5' style='color:#a0aec0; font-style:italic;'>Sin dominios identificados</td></tr>"
-                continue
-                
-            for hit in proteina.hits:
-                fam = hit["target_name"]
-                familias_unicas.add(fam)
-                
-                logo_str = "Matriz N/A"
-                if fam in self.logos:
-                    logo_obj = self.logos[fam]
-                    # Extraer el residuo dominante principal de las primeras 3 posiciones del dominio
-                    pos1 = logo_obj.obtener_residuos_principales(1, top_n=1)
-                    pos2 = logo_obj.obtener_residuos_principales(2, top_n=1)
-                    pos3 = logo_obj.obtener_residuos_principales(3, top_n=1)
+                cuerpo_html += "<tr><td colspan='5' style='color:#a0aec0; font-style:italic;'>No se detectó ningún dominio homólogo con significancia estadística.</td></tr>"
+            else:
+                for hit in proteina.hits:
+                    cuerpo_html += f"""
+                    <tr>
+                        <td><span class="badge">{hit['target_name']}</span></td>
+                        <td><span class="badge">{hit['target_accession']}</span></td>
+                        <td><span class="badge-ev">{hit['e_value']}</span></td>
+                        <td>{hit['score']} b</td>
+                        <td>Residuos: {hit['ali_from']} - {hit['ali_to']}</td>
+                    </tr>"""
+            
+            cuerpo_html += f"""
+                </tbody>
+            </table>
+            <h4>Texto crudo original extraído del archivo tabular (.tbl):</h4>
+            <pre>{proteina.tabla_cruda}</pre>
+        </div>
+        
+        <!-- PESTAÑA 2: ALINEAMIENTO COMPLETO TXT -->
+        <div id="ali_{index}" class="tabcontent">
+            <h3>Alineamiento de Homología de Markov por Posición</h3>
+            <pre>{proteina.reporte_completo}</pre>
+        </div>
+        
+        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN LOCALES NATIVOS -->
+        <div id="logo_{index}" class="tabcontent">"""
+            
+            if not proteina.hits:
+                cuerpo_html += "<p style='color:#718096; font-style:italic;'>No hay perfiles de conservación disponibles al no existir familias válidas.</p>"
+            else:
+                for hit in proteina.hits:
+                    fam = hit["target_name"]
+                    acc = hit["target_accession"]
+                    cuerpo_html += f"<h4 style='color:#2b6cb0;'>Perfil de Conservación e Información para: {fam} ({acc})</h4>"
                     
-                    p1 = pos1[0] if pos1 else "-"
-                    p2 = pos2[0] if pos2 else "-"
-                    p3 = pos3[0] if pos3 else "-"
-                    logo_str = f"Pos1: {p1} | Pos2: {p2} | Pos3: {p3}"
+                    logo_obj = self.logos.get(fam) or self.logos.get(acc)
+                    if logo_obj and logo_obj.posiciones:
+                        cuerpo_html += '<div class="logo-css-bar">'
+                        
+                        # Graficar las primeras 45 posiciones del alineamiento de frecuencias
+                        for pos in sorted(logo_obj.posiciones.keys())[:45]:
+                            res_principales = logo_obj.obtener_residuos_principales(pos, top_n=1)
+                            if res_principales:
+                                aa, bits = res_principales[0] # Desempaquetado correcto de la tupla
+                                altura_px = max(2, int(bits * 30))
+                                
+                                # Asignar color químico clásico
+                                color = "#a0aec0"
+                                if aa in ["R", "K", "H"]: color = "#63b3ed" # Básico (Azul)
+                                elif aa in ["D", "E"]: color = "#fc8181"    # Ácido (Rojo)
+                                elif aa in ["F", "Y", "W"]: color = "#f6e05e" # Aromático (Amarillo)
+                                elif aa in ["A", "I", "L", "V", "M"]: color = "#cbd5e0" # Alifático (Gris Claro)
+                                
+                                cuerpo_html += f"""
+                                <div class="columna-logo" title="Posición {pos}: {aa} con {bits:.2f} bits">
+                                    <span class="letra-aa" style="color: {color};">{aa}</span>
+                                    <div class="barra-bits" style="height: {altura_px}px; background-color: {color};"></div>
+                                    <span class="pos-num">{pos}</span>
+                                </div>"""
+                        cuerpo_html += '</div><p style="font-size:12px; color:#718096; margin-top:5px;">💡 Código de colores: <span style="color:#63b3ed;font-weight:bold;">Azul (Básicos)</span> | <span style="color:#fc8181;font-weight:bold;">Rojo (Ácidos)</span> | <span style="color:#f6e05e;font-weight:bold;">Amarillo (Aromáticos)</span> | <span style="color:#cbd5e0;font-weight:bold;">Gris (Hidrofóbicos)</span>. Pasa el ratón por encima de cada barra para ver los bits exactos.</p>'
+                    else:
+                        cuerpo_html += f"<p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>Matriz local leída con éxito pero sin residuos significativos en {fam}.</p>"
+            
+            cuerpo_html += """
+        </div>
+    </div>"""
 
-                filas += f"""
-            <tr>
-                <td><span class='badge-id'>{id_prot}</span></td>
-                <td><span class='badge-fam'>{fam}</span></td>
-                <td><span class='badge-ev'>{hit['e_value']}</span></td>
-                <td>{hit['score']}</td>
-                <td>AA: {hit['ali_from']} - {hit['ali_to']}</td>
-                <td><div class='logo-box'>{logo_str}</div></td>
-            </tr>"""
-
-        html_final = html_plantilla.format(
-            total_prot=len(self.proteinas),
-            total_fam=len(familias_unicas)
-        ) + filas + """
-        </tbody>
-    </table>
-    <footer>Reporte generado automáticamente por el Pipeline Científico Integrado</footer>
+        script_js = """
+    <footer>Reporte de Logotipos Integrado Local • Ejecutado bajo el entorno WSL Ubuntu</footer>
 </div>
+
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    for (var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+
+    function abrirSubPestaña(evt, nombrePestaña) {
+        var tabcontent, tablinks;
+        var contenedorPadre = evt.currentTarget.parentElement.parentElement;
+        
+        tabcontent = contenedorPadre.getElementsByClassName("tabcontent");
+        for (var i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        
+        tablinks = contenedorPadre.getElementsByClassName("tablinks");
+        for (var i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active-sub");
+        }
+        
+        document.getElementById(nombrePestaña).style.display = "block";
+        evt.currentTarget.classList.add("active-sub");
+    }
+</script>
 </body>
 </html>
 """
+        # Compilación final del documento HTML y guardado en disco
+        html_final = html_plantilla + cuerpo_html + script_js
+        
         with open(nombre_salida, "w", encoding="utf-8") as f_html:
             f_html.write(html_final)
+        print(f"¡Éxito! Reporte interactivo con gráficos nativos listo para {len(self.proteinas)} proteínas.")
 
-print(f"¡Éxito! Reporte web guardado en '{os.path.abspath('resumen_ejecutivo_hmmer.html')}'.")
 
-if __name__ == "main":
+# PUNTO DE ENTRADA CORREGIDO CON SINTAXIS NATIVA DE PYTHON (DOBLE GUION BAJO)
+if __name__ == "__main__":
     datos = ResultadoHMMER("resultados_hmmer")
     datos.exportar_resumen_html()
+        
