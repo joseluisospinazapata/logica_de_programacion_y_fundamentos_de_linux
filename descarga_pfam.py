@@ -41,31 +41,31 @@ def es_archivo_gz(ruta_archivo) -> bool:
         return False
 
 
-def manejar_descompresion(ruta_archivo, acc) -> str:
-    """Detecta si el archivo es .gz, lo descomprime y limpia el archivo comprimido."""
-    if es_archivo_gz(ruta_archivo):
-        ruta_descomprimido = ruta_archivo[:-3]  # Reemplazará el archivo directamente a .hmm plano
-        ruta_temporal_gz = ruta_archivo + ".gz"
-        
-        # Renombrar temporalmente el archivo para operar la descompresión
-        os.rename(ruta_archivo, ruta_temporal_gz)
-        
+def manejar_descompresion(ruta_temporal, ruta_hmm_final) -> str:
+    """Detecta si el archivo es .gz, lo descomprime a .hmm o lo renombra si es texto plano."""
+    if es_archivo_gz(ruta_temporal):
         try:
-            with gzip.open(ruta_temporal_gz, "rb") as f_entrada:
+            # Si el servidor envió un GZIP real, lo extraemos directamente al archivo .hmm final
+            with gzip.open(ruta_temporal, "rb") as f_entrada:
                 contenido_descomprimido = f_entrada.read()
                 
-            with open(ruta_descomprimido, "wb") as f_salida:
+            with open(ruta_hmm_final, "wb") as f_salida:
                 f_salida.write(contenido_descomprimido)
                 
-            os.remove(ruta_temporal_gz)
-            return " (Archivo .gz detectado y descomprimido exitosamente)"
+            os.remove(ruta_temporal)
+            return " (Archivo .gz detectado y descomprimido exitosamente a .hmm)"
         except Exception as e:
-            # En caso de error, intentar restaurar el archivo original
-            if os.path.exists(ruta_temporal_gz) and not os.path.exists(ruta_descomprimido):
-                os.rename(ruta_temporal_gz, ruta_descomprimido)
+            # En caso de error crítico en la descompresión, preservar el archivo descargado
+            if os.path.exists(ruta_temporal) and not os.path.exists(ruta_hmm_final):
+                os.rename(ruta_temporal, ruta_hmm_final + ".error.gz")
             return f" (Error al descomprimir .gz: {str(e)})"
-            
-    return " (Texto plano recibido, no requiere descompresión)"
+    else:
+        # CORRECCIÓN: Si el servidor envió texto plano (.hmm crudo), simplemente lo renombramos a .hmm
+        try:
+            os.rename(ruta_temporal, ruta_hmm_final)
+            return " (Texto plano recibido, guardado directamente como .hmm)"
+        except Exception as e:
+            return f" (Error al renombrar el archivo plano: {str(e)})"
 
 
 def descargar_modelos_hmm(
@@ -84,28 +84,30 @@ def descargar_modelos_hmm(
         if not acc:
             continue
 
-        ruta_archivo = os.path.join(carpeta_salida, f"{acc}.gz")
+        # Definir la ruta del archivo final esperado por tu script de HMMER
+        ruta_hmm_final = os.path.join(carpeta_salida, f"{acc}.hmm")
+        ruta_temporal = os.path.join(carpeta_salida, f"{acc}.tmp")
         url_dinamica = construir_url_dinamica(acc)
 
-        # Evitar re-descargar si el archivo ya existe
-        if os.path.exists(ruta_archivo):
-            msg_saltado = f"[{i}/{len(lista_familias)}] Saltado: {acc}.gz ya existe."
+        # CORRECCIÓN: Evitar re-descargar si el archivo final .hmm ya existe en la carpeta
+        if os.path.exists(ruta_hmm_final):
+            msg_saltado = f"[{i}/{len(lista_familias)}] Saltado: {acc}.hmm ya existe en disco."
             print(msg_saltado)
             registrar_log(msg_saltado)
             continue
 
-        print(f"[{i}/{len(lista_familias)}] Descargando {acc}... ", end="")
+        print(f"[{i}/{len(lista_familias)}] Descargando {acc}... ", end="", flush=True)
 
         try:
             respuesta = sesion.get(url_dinamica, timeout=20)
 
             if respuesta.status_code == 200:
-                # Guardar el contenido crudo inicialmente
-                with open(ruta_archivo, "wb") as f:
+                # Guardar el contenido crudo en el archivo temporal inicialmente
+                with open(ruta_temporal, "wb") as f:
                     f.write(respuesta.content)
                 
-                # Procesar descompresión dinámica si aplica
-                resultado_compresion = manejar_descompresion(ruta_archivo, acc)
+                # Procesar descompresión o renombrado dinámico para asegurar la extensión .hmm
+                resultado_compresion = manejar_descompresion(ruta_temporal, ruta_hmm_final)
                 
                 print(f"OK{resultado_compresion}")
                 registrar_log(f"ÉXITO - ID: {acc} | URL: {url_dinamica}{resultado_compresion}")
@@ -117,6 +119,8 @@ def descargar_modelos_hmm(
 
         except Exception as e:
             print("Falló por red")
+            if os.path.exists(ruta_temporal):
+                os.remove(ruta_temporal)
             registrar_log(
                 f"FALLO DE CONEXIÓN - ID: {acc} | Error: {str(e)} | URL: {url_dinamica}"
             )
@@ -142,3 +146,4 @@ if __name__ == "__main__":
     ]
 
     descargar_modelos_hmm(lista_familias)
+
