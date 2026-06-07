@@ -1,89 +1,5 @@
 import os
-import base64
-import io
 import re
-import pandas as pd
-import matplotlib
-# Forzar a matplotlib a trabajar en modo "headless" (sin interfaz gráfica) para WSL Ubuntu
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import logomaker
-
-class FamiliaLogo:
-    """Clase que almacena la matriz de información de un logotipo y lo dibuja localmente con Logomaker."""
-    def __init__(self, ruta_logo):
-        # Limpiar el ID de la familia de cualquier residuo de texto
-        self.id_familia = os.path.basename(ruta_logo).replace("_logo.txt", "").replace("('", "").replace("', '')", "")
-        self.posiciones = {}  
-        self.logo_base64 = ""  # Imagen codificada para inyectar directo en el HTML
-        self._parsear_y_generar_logo_local(ruta_logo)
-
-    def _parsear_y_generar_logo_local(self, ruta):
-        if not os.path.exists(ruta):
-            return
-        
-        with open(ruta, "r", encoding="utf-8") as f:
-            lineas = f.readlines()
-            
-        aminoacidos = []
-        filas_datos = []
-        
-        for linea in lineas:
-            if linea.startswith("pos") or "m->i" in linea or linea.strip().startswith("#"):
-                continue
-            partes = linea.split()
-            if not partes:
-                continue
-            
-            if len(aminoacidos) == 0 and any(aa in partes for aa in ["A", "C", "D", "E"]):
-                aminoacidos = partes
-                continue
-            
-            # Comprobar si el primer elemento de la lista partes es el índice numérico
-            if partes[0].isdigit() and len(partes) > len(aminoacidos):
-                pos = int(partes[0])
-                valores = [float(x) for x in partes[1:len(aminoacidos)+1]]
-                self.posiciones[pos] = dict(zip(aminoacidos, valores))
-                filas_datos.append(valores)
-
-        # GENERACIÓN DEL GRÁFICO VECTORIAL CON LOGOMAKER
-        if filas_datos and aminoacidos:
-            try:
-                df_logo = pd.DataFrame(filas_datos, columns=aminoacidos)
-                df_logo = df_logo.clip(lower=0)  # Eliminar ruidos negativos de bits
-                
-                # Limitar a las primeras 50 posiciones para asegurar legibilidad en el HTML
-                if len(df_logo) > 50:
-                    df_logo = df_logo.iloc[:50]
-
-                fig, ax = plt.subplots(figsize=(10, 2.5), dpi=120)
-                
-                # Dibujar logo con el esquema de colores clásico para proteínas (chemistry)
-                logomaker.Logo(df_logo, ax=ax, color_scheme='chemistry', font_name='Arial Rounded MT Bold')
-                
-                ax.set_ylabel("Bits", fontsize=10, fontweight='bold')
-                ax.set_xlabel("Posición Dominio Pfam", fontsize=10, fontweight='bold')
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
-                plt.tight_layout()
-                
-                # Guardar el gráfico en un buffer de memoria temporal
-                buffer = io.BytesIO()
-                plt.savefig(buffer, format='png', bbox_inches='tight')
-                buffer.seek(0)
-                self.logo_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
-                plt.close(fig)
-            except Exception as e:
-                print(f"   [Error Logomaker] No se pudo renderizar la matriz para {self.id_familia}: {e}")
-
-    def obtener_residuos_principales(self, posicion, top_n=3):
-        if posicion not in self.posiciones:
-            return []
-        residuos_ordenados = sorted(
-            self.posiciones[posicion].items(), key=lambda item: item[1], reverse=True
-        )
-        return [f"{res} ({val:.2f} b)" for res, val in residuos_ordenados if val > 0][:top_n]
-
 
 class ProteinaEscaneada:
     """Clase que representa una proteína y almacena sus hits, tablas crudas y alineamientos completos."""
@@ -103,29 +19,23 @@ class ResultadoHMMER:
         self.carpeta = carpeta_resultados
         self.carpeta_modelos = carpeta_modelos_origen
         self.proteinas = {}  
-        self.logos = {}      
         self._cargar_y_parsear_todo()
 
     def _limpiar_id_uniprot(self, nombre_archivo) -> str:
+        """Extrae de forma robusta el identificador de UniProt."""
         nombre_limpio = nombre_archivo.replace("tabla_", "").replace("resultado_", "")
         match = re.search(r'([A-Z0-9]{6,10})', nombre_limpio)
-        return match.group(1) if match else os.path.splitext(nombre_limpio)[0]
-
-    def _extraer_nombre_modelo_hmm(self, ruta_hmm) -> str:
-        try:
-            with open(ruta_hmm, "r", encoding="utf-8", errors="ignore") as f:
-                for linea in f:
-                    if linea.startswith("NAME"):
-                        return linea.split()[-1].strip()
-        except Exception:
-            pass
-        return ""
+        if match:
+            return match.group(1)
+        return os.path.splitext(nombre_limpio)[0]
 
     def _cargar_y_parsear_todo(self):
+        """Carga y mapea de forma cruzada tablas y reportes de alineamientos."""
         if not os.path.exists(self.carpeta):
+            print(f"[Error] La carpeta de resultados '{self.carpeta}' no existe.")
             return
 
-        # 1. Parsear tablas (.tbl)
+        # 1. Parsear tablas (.tbl) de HMMER
         for archivo in os.listdir(self.carpeta):
             if archivo.startswith("tabla_") and archivo.endswith(".tbl"):
                 id_prot = self._limpiar_id_uniprot(archivo)
@@ -137,7 +47,7 @@ class ResultadoHMMER:
                     self.proteinas[id_prot].tabla_cruda = f.read()
                 self._parsear_archivo_tabla(ruta_tbl, self.proteinas[id_prot])
 
-        # 2. Sincronizar reportes (.txt)
+        # 2. Sincronizar reportes (.txt) de alineamientos
         for archivo in os.listdir(self.carpeta):
             if archivo.startswith("resultado_") and archivo.endswith(".txt"):
                 id_prot = self._limpiar_id_uniprot(archivo)
@@ -146,34 +56,15 @@ class ResultadoHMMER:
                 with open(os.path.join(self.carpeta, archivo), "r", encoding="utf-8") as f:
                     self.proteinas[id_prot].reporte_completo = f.read()
 
-        # 3. Parsear subcarpeta de logos_hmm e indexar con mapeo doble robusto
-        ruta_logos = os.path.join(self.carpeta, "logos_hmm")
-        if os.path.exists(ruta_logos):
-            print("-> Cargando matrices de texto e indexando Logomaker local...")
-            for archivo in os.listdir(ruta_logos):
-                if archivo.endswith("_logo.txt"):
-                    id_fam = archivo.replace("_logo.txt", "")
-                    id_fam = id_fam.replace("('", "").replace("', '')", "").replace("',", "").strip()
-                    
-                    ruta_archivo_logo = os.path.join(ruta_logos, archivo)
-                    ruta_hmm_original = os.path.join(self.carpeta_modelos, f"{id_fam}.hmm")
-                    
-                    objeto_logo = FamiliaLogo(ruta_archivo_logo)
-                    self.logos[id_fam] = objeto_logo
-                    
-                    if os.path.exists(ruta_hmm_original):
-                        nombre_corto = self._extraer_nombre_modelo_hmm(ruta_hmm_original)
-                        if nombre_corto:
-                            self.logos[nombre_corto] = objeto_logo
-
     def _parsear_archivo_tabla(self, ruta_archivo, objeto_proteina):
+        """Parsea de manera robusta las columnas de un archivo tabular de HMMER."""
         with open(ruta_archivo, "r", encoding="utf-8") as f:
             for linea in f:
                 if linea.startswith("#"):
                     continue
                 partes = linea.split()
                 if len(partes) >= 22:
-                    # CORRECCIÓN DE VERSIONES: Separar la columna por el punto para limpiar el ID (.24, .32)
+                    # Limpiar los números de versión agregados por HMMER (.24, .32, etc.)
                     fam_limpia = partes[0].split(".")[0].strip()
                     acc_limpio = partes[1].split(".")[0].strip()
                     
@@ -188,13 +79,14 @@ class ResultadoHMMER:
                     objeto_proteina.añadir_hit(hit_info)
 
     def exportar_resumen_html(self, nombre_salida="resumen_ejecutivo_hmmer.html"):
-        print(f"-> Generando Dashboard interactivo para {len(self.proteinas)} secuencias...")
+        """Genera el Dashboard interactivo con el mapeo de secuencias y tablas de HMMER."""
+        print(f"-> Ensamblando interfaz web interactiva completa para {len(self.proteinas)} proteínas...")
         
         html_plantilla = """<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Analítico HMMER & Logomaker</title>
+    <title>Dashboard Analítico HMMER Nativo</title>
     <style>
         body {{ font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; color: #2d3748; margin: 0; padding: 20px; }}
         .container {{ max-width: 1300px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }}
@@ -205,6 +97,7 @@ class ResultadoHMMER:
         .collapsible:after {{ content: '\\002B'; font-size: 20px; font-weight: bold; float: right; margin-left: 5px; }}
         .active:after {{ content: "\\2212"; }}
         .content {{ padding: 0 18px; display: none; overflow: hidden; background-color: #fff; border: 1px solid #e2e8f0; border-top: none; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }}
+        
         .tab {{ overflow: hidden; border-bottom: 2px solid #e2e8f0; margin-top: 15px; display: flex; gap: 5px; }}
         .tab button {{ background-color: #edf2f7; color: #4a5568; border: none; outline: none; cursor: pointer; padding: 10px 20px; font-size: 14px; font-weight: 600; border-top-left-radius: 6px; border-top-right-radius: 6px; transition: 0.2s; }}
         .tab button:hover {{ background-color: #e2e8f0; }}
@@ -216,9 +109,6 @@ class ResultadoHMMER:
         th {{ background-color: #4a5568; color: white; padding: 10px; text-align: left; font-size: 14px; }}
         td {{ padding: 10px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }}
         
-        .logomaker-container {{ background: #f7fafc; border: 1px dashed #cbd5e0; padding: 20px; border-radius: 8px; margin-top: 10px; text-align: center; }}
-        .logomaker-container img {{ max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }}
-        
         .badge {{ background: #e2e8f0; color: #2d3748; padding: 3px 8px; border-radius: 4px; font-family: monospace; font-weight: bold; }}
         .badge-ev {{ background: #fed7d7; color: #9b2c2c; padding: 3px 8px; border-radius: 12px; font-weight: bold; }}
         footer {{ text-align: center; margin-top: 40px; font-size: 12px; color: #718096; border-top: 1px solid #e2e8f0; padding-top: 15px; }}
@@ -226,10 +116,9 @@ class ResultadoHMMER:
 </head>
 <body>
 <div class="container">
-    <h1>🧬 Dashboard de Identificación de Dominios y Logotipos Logomaker</h1>
-    <p>Haz clic sobre cualquiera de las secuencias de proteínas mapeadas a continuación para inspeccionar sus alineamientos detallados, tablas de hits y el perfil gráfico de conservación generado localmente.</p>
+    <h1>🧬 Dashboard de Identificación de Dominios (Mapeo de Hits)</h1>
+    <p>Haz clic sobre cualquiera de las secuencias de proteínas mapeadas a continuación para inspeccionar sus alineamientos detallados y tablas de asignación de familias.</p>
 """
-
         cuerpo_html = ""
         for index, (id_prot, proteina) in enumerate(sorted(self.proteinas.items())):
             total_hits = len(proteina.hits)
@@ -240,7 +129,6 @@ class ResultadoHMMER:
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_{index}')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_{index}')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_{index}')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -283,38 +171,13 @@ class ResultadoHMMER:
             <h3>Alineamiento de Homología de Markov por Posición</h3>
             <pre>{proteina.reporte_completo}</pre>
         </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_{index}" class="tabcontent">"""
-            
-            if not proteina.hits:
-                cuerpo_html += "<p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>"
-            else:
-                for hit in proteina.hits:
-                    fam = hit["target_name"]
-                    acc = hit["target_accession"]
-                    cuerpo_html += f"<h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: {fam} ({acc})</h4>"
-                    
-                    # Buscar el logo resolviendo por el nombre corto o su código de acceso limpio sin versión
-                    logo_obj = self.logos.get(fam) or self.logos.get(acc)
-                    if logo_obj and logo_obj.logo_base64:
-                        cuerpo_html += f"""
-                        <div class="logomaker-container">
-                            <img src="data:image/png;base64,{logo_obj.logo_base64}" alt="Logo Logomaker {fam}">
-                        </div>"""
-                    else:
-                        cuerpo_html += f"<p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para {fam}. Verifique que el archivo exista en logos_hmm como {acc}_logo.txt</p>"
-            
-            cuerpo_html += """
-        </div>
     </div>"""
 
         script_js = """
-    <footer>Reporte de Logotipos Integrado Local • Ejecutado bajo el entorno WSL Ubuntu</footer>
+    <footer>Reporte de Alineamientos Integrado • Ejecutado bajo el entorno WSL Ubuntu</footer>
 </div>
 
 <script>
-    // Lógica para desplegar o colapsar las secciones de las proteínas
     var coll = document.getElementsByClassName("collapsible");
     for (var i = 0; i < coll.length; i++) {
         coll[i].addEventListener("click", function() {
@@ -328,7 +191,7 @@ class ResultadoHMMER:
         });
     }
 
-    // Lógica para conmutar las pestañas internas de datos crudos o gráficos
+    // Lógica para alternar las sub-pestañas internas de datos crudos o tablas
     function abrirSubPestaña(evt, nombrePestaña) {
         var tabcontent, tablinks;
         var contenedorPadre = evt.currentTarget.parentElement.parentElement;
@@ -350,12 +213,12 @@ class ResultadoHMMER:
 </body>
 </html>
 """
-        # Unificación final de los bloques de la interfaz
+        # Unificación de los bloques para compilar el documento HTML final
         html_final = html_plantilla + cuerpo_html + script_js
         
         with open(nombre_salida, "w", encoding="utf-8") as f_html:
             f_html.write(html_final)
-        print(f"¡Éxito! Reporte interactivo con gráficos locales Logomaker listo para {len(self.proteinas)} proteínas.")
+        print(f"¡Éxito! Reporte estructurado guardado con éxito para {len(self.proteinas)} proteínas.")
 
 
 # PUNTO DE ENTRADA CORREGIDO CON SINTAXIS NATIVA DE PYTHON (DOBLE GUION BAJO)

@@ -6,7 +6,7 @@ import subprocess
 MODULOS_PIPELINE = [
     "descarga_pfam.py",            # Fase 1: Descarga modelos HMM de Pfam
     "descarga_UniProt.py",         # Fase 2: Descarga archivos FASTA y gestiona ETags
-    "alineamientos_logos_hmmer.py" # Fase 3: Ejecuta hmmscan, hmmlogo y limpia binarios
+    "alineamientos_hmmer.py" # Fase 3: Ejecuta hmmscan, hmmlogo y limpia binarios
 ]
 
 

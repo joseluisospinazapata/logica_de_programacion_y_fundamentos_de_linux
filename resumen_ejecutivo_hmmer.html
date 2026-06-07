@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Analítico HMMER & Logomaker</title>
+    <title>Dashboard Analítico HMMER Nativo</title>
     <style>
         body {{ font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; color: #2d3748; margin: 0; padding: 20px; }}
         .container {{ max-width: 1300px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }}
@@ -13,6 +13,7 @@
         .collapsible:after {{ content: '\002B'; font-size: 20px; font-weight: bold; float: right; margin-left: 5px; }}
         .active:after {{ content: "\2212"; }}
         .content {{ padding: 0 18px; display: none; overflow: hidden; background-color: #fff; border: 1px solid #e2e8f0; border-top: none; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }}
+        
         .tab {{ overflow: hidden; border-bottom: 2px solid #e2e8f0; margin-top: 15px; display: flex; gap: 5px; }}
         .tab button {{ background-color: #edf2f7; color: #4a5568; border: none; outline: none; cursor: pointer; padding: 10px 20px; font-size: 14px; font-weight: 600; border-top-left-radius: 6px; border-top-right-radius: 6px; transition: 0.2s; }}
         .tab button:hover {{ background-color: #e2e8f0; }}
@@ -24,9 +25,6 @@
         th {{ background-color: #4a5568; color: white; padding: 10px; text-align: left; font-size: 14px; }}
         td {{ padding: 10px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }}
         
-        .logomaker-container {{ background: #f7fafc; border: 1px dashed #cbd5e0; padding: 20px; border-radius: 8px; margin-top: 10px; text-align: center; }}
-        .logomaker-container img {{ max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }}
-        
         .badge {{ background: #e2e8f0; color: #2d3748; padding: 3px 8px; border-radius: 4px; font-family: monospace; font-weight: bold; }}
         .badge-ev {{ background: #fed7d7; color: #9b2c2c; padding: 3px 8px; border-radius: 12px; font-weight: bold; }}
         footer {{ text-align: center; margin-top: 40px; font-size: 12px; color: #718096; border-top: 1px solid #e2e8f0; padding-top: 15px; }}
@@ -34,15 +32,14 @@
 </head>
 <body>
 <div class="container">
-    <h1>🧬 Dashboard de Identificación de Dominios y Logotipos Logomaker</h1>
-    <p>Haz clic sobre cualquiera de las secuencias de proteínas mapeadas a continuación para inspeccionar sus alineamientos detallados, tablas de hits y el perfil gráfico de conservación generado localmente.</p>
+    <h1>🧬 Dashboard de Identificación de Dominios (Mapeo de Hits)</h1>
+    <p>Haz clic sobre cualquiera de las secuencias de proteínas mapeadas a continuación para inspeccionar sus alineamientos detallados y tablas de asignación de familias.</p>
 
     <button class="collapsible">Proteína / Secuencia: P00519 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 4</span></button>
     <div class="content">
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_0')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_0')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_0')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -105,7 +102,7 @@ SH3_1                PF00018.35    48 sp|P00519|ABL1_HUMAN -           1130   7.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P00519.txt --domtblout resultados_hmmer/tabla_P00519.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P00519.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -218,14 +215,10 @@ Passed Fwd filter:                         4  (0.105263); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               4  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 950.45
+# Mc/sec: 1447.67
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_0" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH3_1 (PF00018)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH3_1. Verifique que el archivo exista en logos_hmm como PF00018_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P00533 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 2</span></button>
@@ -233,7 +226,6 @@ Domain search space  (domZ):               4  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_1')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_1')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_1')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -280,7 +272,7 @@ Pkinase              PF00069.32   262 sp|P00533|EGFR_HUMAN -           1210   2.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P00533.txt --domtblout resultados_hmmer/tabla_P00533.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P00533.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -367,14 +359,10 @@ Passed Fwd filter:                         2  (0.0526316); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               2  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 1122.59
+# Mc/sec: 1829.58
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_1" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P01111 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 1</span></button>
@@ -382,7 +370,6 @@ Domain search space  (domZ):               2  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_2')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_2')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_2')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -421,7 +408,7 @@ Ras                  PF00071.29   162 sp|P01111|RASN_HUMAN -            189   8.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P01111.txt --domtblout resultados_hmmer/tabla_P01111.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P01111.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -480,14 +467,10 @@ Passed Fwd filter:                         1  (0.0263158); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               1  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 793.92
+# Mc/sec: 1097.40
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_2" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Ras (PF00071)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Ras. Verifique que el archivo exista en logos_hmm como PF00071_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P01112 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 1</span></button>
@@ -495,7 +478,6 @@ Domain search space  (domZ):               1  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_3')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_3')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_3')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -534,7 +516,7 @@ Ras                  PF00071.29   162 sp|P01112|RASH_HUMAN -            189   1.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P01112.txt --domtblout resultados_hmmer/tabla_P01112.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P01112.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -593,14 +575,10 @@ Passed Fwd filter:                         1  (0.0263158); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               1  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 724.48
+# Mc/sec: 1134.38
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_3" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Ras (PF00071)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Ras. Verifique que el archivo exista en logos_hmm como PF00071_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P01116 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 1</span></button>
@@ -608,7 +586,6 @@ Domain search space  (domZ):               1  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_4')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_4')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_4')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -647,7 +624,7 @@ Ras                  PF00071.29   162 sp|P01116|RASK_HUMAN -            189   8.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P01116.txt --domtblout resultados_hmmer/tabla_P01116.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P01116.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:28 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -706,14 +683,10 @@ Passed Fwd filter:                         1  (0.0263158); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               1  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 752.49
+# Mc/sec: 1198.07
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_4" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Ras (PF00071)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Ras. Verifique que el archivo exista en logos_hmm como PF00071_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P04049 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 2</span></button>
@@ -721,7 +694,6 @@ Domain search space  (domZ):               1  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_5')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_5')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_5')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -768,7 +740,7 @@ Pkinase              PF00069.32   262 sp|P04049|RAF1_HUMAN -            648   2.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P04049.txt --domtblout resultados_hmmer/tabla_P04049.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P04049.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -855,14 +827,10 @@ Passed Fwd filter:                         2  (0.0526316); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               2  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 836.19
+# Mc/sec: 1274.19
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_5" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P06241 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 5</span></button>
@@ -870,7 +838,6 @@ Domain search space  (domZ):               2  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_6')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_6')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_6')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -941,7 +908,7 @@ SH3_1                PF00018.35    48 sp|P06241|FYN_HUMAN  -            537   1.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P06241.txt --domtblout resultados_hmmer/tabla_P06241.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P06241.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:28 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -1061,14 +1028,10 @@ Passed Fwd filter:                         4  (0.105263); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               4  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 676.77
+# Mc/sec: 1076.83
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_6" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH3_1 (PF00018)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH3_1. Verifique que el archivo exista en logos_hmm como PF00018_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH3_1 (PF00018)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH3_1. Verifique que el archivo exista en logos_hmm como PF00018_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P07947 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 5</span></button>
@@ -1076,7 +1039,6 @@ Domain search space  (domZ):               4  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_7')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_7')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_7')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -1147,7 +1109,7 @@ SH3_1                PF00018.35    48 sp|P07947|YES_HUMAN  -            543   6.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P07947.txt --domtblout resultados_hmmer/tabla_P07947.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P07947.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -1267,14 +1229,10 @@ Passed Fwd filter:                         4  (0.105263); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               4  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 670.84
+# Mc/sec: 1031.60
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_7" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH3_1 (PF00018)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH3_1. Verifique que el archivo exista en logos_hmm como PF00018_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH3_1 (PF00018)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH3_1. Verifique que el archivo exista en logos_hmm como PF00018_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P08047 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 4</span></button>
@@ -1282,7 +1240,6 @@ Domain search space  (domZ):               4  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_8')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_8')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_8')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -1345,7 +1302,7 @@ zf-C2H2              PF00096.33    23 sp|P08047|SP1_HUMAN  -            785   2.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P08047.txt --domtblout resultados_hmmer/tabla_P08047.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P08047.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -1420,14 +1377,10 @@ Passed Fwd filter:                         1  (0.0263158); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               1  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 5185.73
+# Mc/sec: 7532.84
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_8" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: zf-C2H2 (PF00096)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para zf-C2H2. Verifique que el archivo exista en logos_hmm como PF00096_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: zf-C2H2 (PF00096)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para zf-C2H2. Verifique que el archivo exista en logos_hmm como PF00096_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: zf-C2H2 (PF00096)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para zf-C2H2. Verifique que el archivo exista en logos_hmm como PF00096_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: zf-C2H2 (PF00096)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para zf-C2H2. Verifique que el archivo exista en logos_hmm como PF00096_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P0A6W5 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -1435,7 +1388,6 @@ Domain search space  (domZ):               1  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_9')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_9')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_9')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -1466,7 +1418,7 @@ Domain search space  (domZ):               1  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P0A6W5.txt --domtblout resultados_hmmer/tabla_P0A6W5.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P0A6W5.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -1511,14 +1463,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 1654.86
+# Mc/sec: 2427.51
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_9" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P0A6Y8 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 1</span></button>
@@ -1526,7 +1474,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_10')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_10')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_10')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -1565,7 +1512,7 @@ HSP70                PF00012.27   599 sp|P0A6Y8|DNAK_ECOLI -            638  2.2
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P0A6Y8.txt --domtblout resultados_hmmer/tabla_P0A6Y8.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P0A6Y8.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -1648,15 +1595,11 @@ Passed Vit filter:                         1  (0.0263158); expected 0.0 (0.001)
 Passed Fwd filter:                         1  (0.0263158); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               1  [number of targets reported over threshold]
-# CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.01
-# Mc/sec: 327.51
+# CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
+# Mc/sec: 532.13
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_10" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: HSP70 (PF00012)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para HSP70. Verifique que el archivo exista en logos_hmm como PF00012_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P0A799 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -1664,7 +1607,6 @@ Domain search space  (domZ):               1  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_11')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_11')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_11')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -1695,7 +1637,7 @@ Domain search space  (domZ):               1  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P0A799.txt --domtblout resultados_hmmer/tabla_P0A799.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P0A799.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -1740,14 +1682,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 3821.27
+# Mc/sec: 6219.88
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_11" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P0A7Y4 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -1755,7 +1693,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_12')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_12')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_12')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -1786,7 +1723,7 @@ Domain search space  (domZ):               0  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P0A7Y4.txt --domtblout resultados_hmmer/tabla_P0A7Y4.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P0A7Y4.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -1831,14 +1768,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 1502.04
+# Mc/sec: 2920.45
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_12" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P0A8V2 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -1846,7 +1779,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_13')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_13')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_13')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -1877,7 +1809,7 @@ Domain search space  (domZ):               0  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P0A8V2.txt --domtblout resultados_hmmer/tabla_P0A8V2.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P0A8V2.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -1922,14 +1854,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 5611.26
+# Mc/sec: 9645.27
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_13" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P0A9Q7 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 1</span></button>
@@ -1937,7 +1865,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_14')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_14')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_14')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -1976,7 +1903,7 @@ Aldedh               PF00171.28   461 sp|P0A9Q7|ADHE_ECOLI -            891   4.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P0A9Q7.txt --domtblout resultados_hmmer/tabla_P0A9Q7.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P0A9Q7.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -2049,15 +1976,11 @@ Passed Vit filter:                         1  (0.0263158); expected 0.0 (0.001)
 Passed Fwd filter:                         1  (0.0263158); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               1  [number of targets reported over threshold]
-# CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.01
-# Mc/sec: 496.35
+# CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
+# Mc/sec: 750.50
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_14" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Aldedh (PF00171)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Aldedh. Verifique que el archivo exista en logos_hmm como PF00171_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P10242 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -2065,7 +1988,6 @@ Domain search space  (domZ):               1  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_15')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_15')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_15')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -2096,7 +2018,7 @@ Domain search space  (domZ):               1  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P10242.txt --domtblout resultados_hmmer/tabla_P10242.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P10242.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -2141,14 +2063,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 4383.50
+# Mc/sec: 6984.69
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_15" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P11142 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 1</span></button>
@@ -2156,7 +2074,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_16')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_16')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_16')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -2195,7 +2112,7 @@ HSP70                PF00012.27   599 sp|P11142|HSP7C_HUMAN -            646  8.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P11142.txt --domtblout resultados_hmmer/tabla_P11142.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P11142.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -2278,15 +2195,11 @@ Passed Vit filter:                         1  (0.0263158); expected 0.0 (0.001)
 Passed Fwd filter:                         1  (0.0263158); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               1  [number of targets reported over threshold]
-# CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.01
-# Mc/sec: 350.74
+# CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
+# Mc/sec: 557.24
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_16" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: HSP70 (PF00012)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para HSP70. Verifique que el archivo exista en logos_hmm como PF00012_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P11473 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -2294,7 +2207,6 @@ Domain search space  (domZ):               1  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_17')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_17')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_17')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -2325,7 +2237,7 @@ Domain search space  (domZ):               1  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P11473.txt --domtblout resultados_hmmer/tabla_P11473.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P11473.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -2370,14 +2282,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 3582.84
+# Mc/sec: 5435.57
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_17" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P12814 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -2385,7 +2293,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_18')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_18')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_18')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -2416,7 +2323,7 @@ Domain search space  (domZ):               0  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P12814.txt --domtblout resultados_hmmer/tabla_P12814.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P12814.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -2461,14 +2368,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 4471.76
+# Mc/sec: 6502.00
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_18" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P12931 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 5</span></button>
@@ -2476,7 +2379,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_19')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_19')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_19')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -2547,7 +2449,7 @@ SH3_1                PF00018.35    48 sp|P12931|SRC_HUMAN  -            536   1.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P12931.txt --domtblout resultados_hmmer/tabla_P12931.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P12931.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -2667,14 +2569,10 @@ Passed Fwd filter:                         4  (0.105263); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               4  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 596.65
+# Mc/sec: 1066.49
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_19" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH3_1 (PF00018)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH3_1. Verifique que el archivo exista en logos_hmm como PF00018_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH3_1 (PF00018)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH3_1. Verifique que el archivo exista en logos_hmm como PF00018_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P12956 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -2682,7 +2580,6 @@ Domain search space  (domZ):               4  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_20')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_20')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_20')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -2713,7 +2610,7 @@ Domain search space  (domZ):               4  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P12956.txt --domtblout resultados_hmmer/tabla_P12956.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P12956.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -2758,14 +2655,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 2979.29
+# Mc/sec: 5376.78
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_20" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P13569 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 2</span></button>
@@ -2773,7 +2666,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_21')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_21')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_21')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -2820,7 +2712,7 @@ ABC_tran             PF00005.34   137 sp|P13569|CFTR_HUMAN -           1480     
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P13569.txt --domtblout resultados_hmmer/tabla_P13569.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P13569.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -2895,14 +2787,10 @@ Passed Fwd filter:                         1  (0.0263158); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               1  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 2645.19
+# Mc/sec: 4734.73
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_21" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ABC_tran (PF00005)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ABC_tran. Verifique que el archivo exista en logos_hmm como PF00005_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ABC_tran (PF00005)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ABC_tran. Verifique que el archivo exista en logos_hmm como PF00005_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P15056 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 2</span></button>
@@ -2910,7 +2798,6 @@ Domain search space  (domZ):               1  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_22')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_22')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_22')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -2957,7 +2844,7 @@ Pkinase              PF00069.32   262 sp|P15056|BRAF_HUMAN -            766   1.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P15056.txt --domtblout resultados_hmmer/tabla_P15056.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P15056.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -3049,14 +2936,10 @@ Passed Fwd filter:                         2  (0.0526316); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               2  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 932.22
+# Mc/sec: 1568.90
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_22" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P15924 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -3064,7 +2947,6 @@ Domain search space  (domZ):               2  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_23')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_23')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_23')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -3095,7 +2977,7 @@ Domain search space  (domZ):               2  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P15924.txt --domtblout resultados_hmmer/tabla_P15924.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P15924.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -3140,14 +3022,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 6971.02
+# Mc/sec: 10350.01
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_23" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P16234 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 8</span></button>
@@ -3155,7 +3033,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_24')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_24')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_24')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -3250,7 +3127,7 @@ ig                   PF00047.32    81 sp|P16234|PGFRA_HUMAN -           1089   3
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P16234.txt --domtblout resultados_hmmer/tabla_P16234.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P16234.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -3399,15 +3276,11 @@ Passed Vit filter:                         4  (0.105263); expected 0.0 (0.001)
 Passed Fwd filter:                         3  (0.0789474); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               3  [number of targets reported over threshold]
-# CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.01
-# Mc/sec: 594.30
+# CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
+# Mc/sec: 969.63
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_24" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P19838 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 7</span></button>
@@ -3415,7 +3288,6 @@ Domain search space  (domZ):               3  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_25')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_25')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_25')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -3502,7 +3374,7 @@ Ank                  PF00023.37    33 sp|P19838|NFKB1_HUMAN -            968   2
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P19838.txt --domtblout resultados_hmmer/tabla_P19838.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P19838.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -3598,14 +3470,10 @@ Passed Fwd filter:                         1  (0.0263158); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               1  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 5753.26
+# Mc/sec: 7011.32
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_25" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Ank (PF00023)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Ank. Verifique que el archivo exista en logos_hmm como PF00023_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Ank (PF00023)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Ank. Verifique que el archivo exista en logos_hmm como PF00023_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Ank (PF00023)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Ank. Verifique que el archivo exista en logos_hmm como PF00023_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Ank (PF00023)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Ank. Verifique que el archivo exista en logos_hmm como PF00023_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Ank (PF00023)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Ank. Verifique que el archivo exista en logos_hmm como PF00023_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Ank (PF00023)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Ank. Verifique que el archivo exista en logos_hmm como PF00023_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Ank (PF00023)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Ank. Verifique que el archivo exista en logos_hmm como PF00023_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P21802 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 6</span></button>
@@ -3613,7 +3481,6 @@ Domain search space  (domZ):               1  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_26')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_26')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_26')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -3692,7 +3559,7 @@ ig                   PF00047.32    81 sp|P21802|FGFR2_HUMAN -            821   1
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P21802.txt --domtblout resultados_hmmer/tabla_P21802.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P21802.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -3823,14 +3690,10 @@ Passed Fwd filter:                         3  (0.0789474); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               3  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 775.87
+# Mc/sec: 1228.15
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_26" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P22681 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -3838,7 +3701,6 @@ Domain search space  (domZ):               3  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_27')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_27')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_27')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -3869,7 +3731,7 @@ Domain search space  (domZ):               3  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P22681.txt --domtblout resultados_hmmer/tabla_P22681.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P22681.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -3914,14 +3776,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 5001.25
+# Mc/sec: 7366.52
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_27" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P27361 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 2</span></button>
@@ -3929,7 +3787,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_28')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_28')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_28')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -3976,7 +3833,7 @@ PK_Tyr_Ser-Thr       PF07714.24   258 sp|P27361|MK03_HUMAN -            379   2.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P27361.txt --domtblout resultados_hmmer/tabla_P27361.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P27361.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -4068,14 +3925,10 @@ Passed Fwd filter:                         2  (0.0526316); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               2  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 568.70
+# Mc/sec: 844.65
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_28" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P28482 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 2</span></button>
@@ -4083,7 +3936,6 @@ Domain search space  (domZ):               2  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_29')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_29')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_29')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -4130,7 +3982,7 @@ PK_Tyr_Ser-Thr       PF07714.24   258 sp|P28482|MK01_HUMAN -            360   3.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P28482.txt --domtblout resultados_hmmer/tabla_P28482.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P28482.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -4222,14 +4074,10 @@ Passed Fwd filter:                         2  (0.0526316); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               2  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 602.42
+# Mc/sec: 976.08
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_29" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P29317 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 4</span></button>
@@ -4237,7 +4085,6 @@ Domain search space  (domZ):               2  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_30')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_30')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_30')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -4300,7 +4147,7 @@ fn3                  PF00041.28    84 sp|P29317|EPHA2_HUMAN -            976   2
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P29317.txt --domtblout resultados_hmmer/tabla_P29317.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P29317.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -4417,14 +4264,10 @@ Passed Fwd filter:                         3  (0.0789474); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               3  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 927.34
+# Mc/sec: 1434.70
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_30" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: fn3 (PF00041)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para fn3. Verifique que el archivo exista en logos_hmm como PF00041_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: fn3 (PF00041)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para fn3. Verifique que el archivo exista en logos_hmm como PF00041_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P29353 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 1</span></button>
@@ -4432,7 +4275,6 @@ Domain search space  (domZ):               3  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_31')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_31')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_31')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -4471,7 +4313,7 @@ SH2                  PF00017.31    77 sp|P29353|SHC1_HUMAN -            583   4.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P29353.txt --domtblout resultados_hmmer/tabla_P29353.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P29353.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -4525,14 +4367,10 @@ Passed Fwd filter:                         1  (0.0263158); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               1  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 3503.11
+# Mc/sec: 5383.73
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_31" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P31749 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 2</span></button>
@@ -4540,7 +4378,6 @@ Domain search space  (domZ):               1  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_32')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_32')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_32')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -4587,7 +4424,7 @@ PK_Tyr_Ser-Thr       PF07714.24   258 sp|P31749|AKT1_HUMAN -            480   6.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P31749.txt --domtblout resultados_hmmer/tabla_P31749.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P31749.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:28 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -4679,14 +4516,10 @@ Passed Fwd filter:                         2  (0.0526316); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               2  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 611.15
+# Mc/sec: 968.98
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_32" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P35222 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -4694,7 +4527,6 @@ Domain search space  (domZ):               2  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_33')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_33')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_33')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -4725,7 +4557,7 @@ Domain search space  (domZ):               2  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P35222.txt --domtblout resultados_hmmer/tabla_P35222.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P35222.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:28 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -4770,14 +4602,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 8308.33
+# Mc/sec: 9967.37
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_33" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P39451 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -4785,7 +4613,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_34')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_34')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_34')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -4816,7 +4643,7 @@ Domain search space  (domZ):               0  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P39451.txt --domtblout resultados_hmmer/tabla_P39451.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P39451.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -4861,14 +4688,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 2077.41
+# Mc/sec: 3722.86
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_34" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P40763 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 1</span></button>
@@ -4876,7 +4699,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_35')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_35')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_35')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -4915,7 +4737,7 @@ SH2                  PF00017.31    77 sp|P40763|STAT3_HUMAN -            770   6
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P40763.txt --domtblout resultados_hmmer/tabla_P40763.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P40763.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -4969,14 +4791,10 @@ Passed Fwd filter:                         1  (0.0263158); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               1  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 2587.62
+# Mc/sec: 3594.65
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_35" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P42224 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 3</span></button>
@@ -4984,7 +4802,6 @@ Domain search space  (domZ):               1  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_36')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_36')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_36')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -5039,7 +4856,7 @@ SH2                  PF00017.31    77 sp|P42224|STAT1_HUMAN -            750   2
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P42224.txt --domtblout resultados_hmmer/tabla_P42224.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P42224.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -5107,14 +4924,10 @@ Passed Fwd filter:                         1  (0.0263158); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               1  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 2625.59
+# Mc/sec: 3561.08
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_36" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P42681 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 5</span></button>
@@ -5122,7 +4935,6 @@ Domain search space  (domZ):               1  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_37')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_37')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_37')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -5193,7 +5005,7 @@ SH3_1                PF00018.35    48 sp|P42681|TXK_HUMAN  -            527   2.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P42681.txt --domtblout resultados_hmmer/tabla_P42681.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P42681.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -5313,14 +5125,10 @@ Passed Fwd filter:                         4  (0.105263); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               4  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 643.98
+# Mc/sec: 1028.71
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_37" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH3_1 (PF00018)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH3_1. Verifique que el archivo exista en logos_hmm como PF00018_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH3_1 (PF00018)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH3_1. Verifique que el archivo exista en logos_hmm como PF00018_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P42684 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 4</span></button>
@@ -5328,7 +5136,6 @@ Domain search space  (domZ):               4  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_38')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_38')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_38')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -5391,7 +5198,7 @@ SH3_1                PF00018.35    48 sp|P42684|ABL2_HUMAN -           1182   2.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P42684.txt --domtblout resultados_hmmer/tabla_P42684.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P42684.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -5504,14 +5311,10 @@ Passed Fwd filter:                         4  (0.105263); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               4  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 871.72
+# Mc/sec: 1585.24
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_38" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH3_1 (PF00018)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH3_1. Verifique que el archivo exista en logos_hmm como PF00018_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P43403 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 4</span></button>
@@ -5519,7 +5322,6 @@ Domain search space  (domZ):               4  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_39')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_39')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_39')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -5582,7 +5384,7 @@ SH2                  PF00017.31    77 sp|P43403|ZAP70_HUMAN -            619    
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P43403.txt --domtblout resultados_hmmer/tabla_P43403.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P43403.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -5689,14 +5491,10 @@ Passed Fwd filter:                         3  (0.0789474); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               3  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 799.93
+# Mc/sec: 1145.97
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_39" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P43405 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 4</span></button>
@@ -5704,7 +5502,6 @@ Domain search space  (domZ):               3  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_40')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_40')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_40')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -5767,7 +5564,7 @@ SH2                  PF00017.31    77 sp|P43405|KSYK_HUMAN -            635   1.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P43405.txt --domtblout resultados_hmmer/tabla_P43405.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P43405.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -5874,14 +5671,10 @@ Passed Fwd filter:                         3  (0.0789474); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               3  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 776.21
+# Mc/sec: 1169.40
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_40" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P61244 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -5889,7 +5682,6 @@ Domain search space  (domZ):               3  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_41')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_41')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_41')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -5920,7 +5712,7 @@ Domain search space  (domZ):               3  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P61244.txt --domtblout resultados_hmmer/tabla_P61244.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P61244.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -5965,14 +5757,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 1706.95
+# Mc/sec: 2314.74
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_41" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P62937 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -5980,7 +5768,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_42')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_42')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_42')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -6011,7 +5798,7 @@ Domain search space  (domZ):               0  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P62937.txt --domtblout resultados_hmmer/tabla_P62937.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P62937.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -6056,14 +5843,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 1957.95
+# Mc/sec: 2281.82
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_42" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P62993 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 4</span></button>
@@ -6071,7 +5854,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_43')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_43')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_43')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -6134,7 +5916,7 @@ SH2                  PF00017.31    77 sp|P62993|GRB2_HUMAN -            217   4.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P62993.txt --domtblout resultados_hmmer/tabla_P62993.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P62993.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -6215,14 +5997,10 @@ Passed Fwd filter:                         2  (0.0526316); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               2  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 1262.20
+# Mc/sec: 2026.84
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_43" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH3_1 (PF00018)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH3_1. Verifique que el archivo exista en logos_hmm como PF00018_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH3_1 (PF00018)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH3_1. Verifique que el archivo exista en logos_hmm como PF00018_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH3_1 (PF00018)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH3_1. Verifique que el archivo exista en logos_hmm como PF00018_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: P98160 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 41</span></button>
@@ -6230,7 +6008,6 @@ Domain search space  (domZ):               2  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_44')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_44')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_44')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -6589,7 +6366,7 @@ EGF                  PF00008.34    32 sp|P98160|PGBM_HUMAN -           4391   4.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_P98160.txt --domtblout resultados_hmmer/tabla_P98160.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/P98160.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -6929,14 +6706,10 @@ Passed Fwd filter:                         2  (0.0526316); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               2  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 3893.80
+# Mc/sec: 6210.17
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_44" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: ig (PF00047)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para ig. Verifique que el archivo exista en logos_hmm como PF00047_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: EGF (PF00008)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para EGF. Verifique que el archivo exista en logos_hmm como PF00008_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: Q06187 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 4</span></button>
@@ -6944,7 +6717,6 @@ Domain search space  (domZ):               2  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_45')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_45')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_45')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -7007,7 +6779,7 @@ SH3_1                PF00018.35    48 sp|Q06187|BTK_HUMAN  -            659   3.
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_Q06187.txt --domtblout resultados_hmmer/tabla_Q06187.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/Q06187.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -7120,14 +6892,10 @@ Passed Fwd filter:                         4  (0.105263); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               4  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 805.37
+# Mc/sec: 1113.29
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_45" class="tabcontent"><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: PK_Tyr_Ser-Thr (PF07714)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para PK_Tyr_Ser-Thr. Verifique que el archivo exista en logos_hmm como PF07714_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: Pkinase (PF00069)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para Pkinase. Verifique que el archivo exista en logos_hmm como PF00069_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH2 (PF00017)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH2. Verifique que el archivo exista en logos_hmm como PF00017_logo.txt</p><h4 style='color:#2b6cb0;'>Perfil de Logotipo de Secuencias para la Familia: SH3_1 (PF00018)</h4><p style='color:#718096; background:#edf2f7; padding:10px; border-radius:6px;'>No se pudo graficar la matriz local para SH3_1. Verifique que el archivo exista en logos_hmm como PF00018_logo.txt</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: Q13485 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -7135,7 +6903,6 @@ Domain search space  (domZ):               4  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_46')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_46')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_46')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -7166,7 +6933,7 @@ Domain search space  (domZ):               4  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_Q13485.txt --domtblout resultados_hmmer/tabla_Q13485.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/Q13485.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -7211,14 +6978,10 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 5982.08
+# Mc/sec: 8631.53
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_46" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: Q92793 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -7226,7 +6989,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_47')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_47')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_47')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -7257,7 +7019,7 @@ Domain search space  (domZ):               0  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_Q92793.txt --domtblout resultados_hmmer/tabla_Q92793.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/Q92793.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -7301,15 +7063,11 @@ Passed Vit filter:                         2  (0.0526316); expected 0.0 (0.001)
 Passed Fwd filter:                         1  (0.0263158); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
-# CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.01
-# Mc/sec: 1189.65
+# CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
+# Mc/sec: 1906.08
 //
 [ok]
 </pre>
-        </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_47" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
         </div>
     </div>
     <button class="collapsible">Proteína / Secuencia: Q9Y2T1 <span style="font-size:13px; background:#fff; color:#2b6cb0; padding:2px 8px; border-radius:10px;">Hits: 0</span></button>
@@ -7317,7 +7075,6 @@ Domain search space  (domZ):               0  [number of targets reported over t
         <div class="tab">
             <button class="tablinks active-sub" onclick="abrirSubPestaña(event, 'hits_48')">Tabla de Hits (.tbl)</button>
             <button class="tablinks" onclick="abrirSubPestaña(event, 'ali_48')">Alineamiento Completo (.txt)</button>
-            <button class="tablinks" onclick="abrirSubPestaña(event, 'logo_48')">Logotipos de Conservación (Logomaker)</button>
         </div>
         
         <!-- PESTAÑA 1: TABLA ESTRUCTURADA Y TEXTO CRUDO TBL -->
@@ -7348,7 +7105,7 @@ Domain search space  (domZ):               0  [number of targets reported over t
 # Target file:     modelos_hmm_pfam/pfam_db.hmm
 # Option settings: /usr/bin/hmmscan -o resultados_hmmer/resultado_Q9Y2T1.txt --domtblout resultados_hmmer/tabla_Q9Y2T1.tbl modelos_hmm_pfam/pfam_db.hmm uniprot_fastas/Q9Y2T1.fasta 
 # Current dir:     /home/josel/logica_de_programacion_y_fundamentos_de_linux
-# Date:            Fri Jun  5 22:44:29 2026
+# Date:            Sun Jun  7 14:24:31 2026
 # [ok]
 </pre>
         </div>
@@ -7393,21 +7150,16 @@ Passed Fwd filter:                         0  (0); expected 0.0 (1e-05)
 Initial search space (Z):                 38  [actual number of targets]
 Domain search space  (domZ):               0  [number of targets reported over threshold]
 # CPU time: 0.00u 0.00s 00:00:00.00 Elapsed: 00:00:00.00
-# Mc/sec: 6462.61
+# Mc/sec: 11506.89
 //
 [ok]
 </pre>
         </div>
-        
-        <!-- PESTAÑA 3: LOGOS DE CONSERVACIÓN CON LOGOMAKER -->
-        <div id="logo_48" class="tabcontent"><p style='color:#718096; font-style:italic;'>No hay logotipos disponibles para graficar al no existir familias válidas.</p>
-        </div>
     </div>
-    <footer>Reporte de Logotipos Integrado Local • Ejecutado bajo el entorno WSL Ubuntu</footer>
+    <footer>Reporte de Alineamientos Integrado • Ejecutado bajo el entorno WSL Ubuntu</footer>
 </div>
 
 <script>
-    // Lógica para desplegar o colapsar las secciones de las proteínas
     var coll = document.getElementsByClassName("collapsible");
     for (var i = 0; i < coll.length; i++) {
         coll[i].addEventListener("click", function() {
@@ -7421,7 +7173,7 @@ Domain search space  (domZ):               0  [number of targets reported over t
         });
     }
 
-    // Lógica para conmutar las pestañas internas de datos crudos o gráficos
+    // Lógica para alternar las sub-pestañas internas de datos crudos o tablas
     function abrirSubPestaña(evt, nombrePestaña) {
         var tabcontent, tablinks;
         var contenedorPadre = evt.currentTarget.parentElement.parentElement;

@@ -97,42 +97,6 @@ def ejecutar_hmmscan(db_pfam, carpeta_fasta, carpeta_salida, ruta_hmmscan):
             print(f" Error al procesar {nombre_base}: {e}")
 
 
-def generar_logos_hmm(carpeta_pfam, carpeta_salida, ruta_hmmlogo):
-    """Extrae las alturas de letras limpiando estrictamente los prefijos de las extensiones."""
-    print("\nGenerando matrices de datos de logotipos con hmmlogo...")
-    
-    archivos_hmm = [
-        os.path.join(carpeta_pfam, f) 
-        for f in os.listdir(carpeta_pfam) 
-        if f.endswith(".hmm") and not f.startswith("pfam_db")
-    ]
-    
-    carpeta_logos = os.path.join(carpeta_salida, "logos_hmm")
-    os.makedirs(carpeta_logos, exist_ok=True)
-    
-    for ruta_hmm in archivos_hmm:
-        nombre_base = os.path.basename(ruta_hmm)
-        
-        # CORRECCIÓN DE RAÍZ: Captura exactamente los caracteres 'PF' y sus 5 dígitos (ej: PF07714)
-        match = re.match(r'(PF\d{5})', nombre_base)
-        if match:
-            id_familia = match.group(1)
-        else:
-            id_familia = os.path.splitext(nombre_base)[0]
-            
-        ruta_logo_salida = os.path.join(carpeta_logos, f"{id_familia}_logo.txt")
-        comando = [ruta_hmmlogo, ruta_hmm]
-        
-        try:
-            with open(ruta_logo_salida, "w", encoding="utf-8") as f_salida:
-                subprocess.run(comando, check=True, stdout=f_salida, stderr=subprocess.PIPE)
-            print(f"   -> Datos de logo generados correctamente como: {id_familia}_logo.txt")
-        except subprocess.CalledProcessError as e:
-            print(f"   [FALLO] No se pudo procesar {id_familia}. Error: {e.stderr.decode().strip()}")
-            
-    print(f"¡Matrices de logotipos guardadas con éxito en '{carpeta_logos}'!")
-
-
 def limpiar_archivos_temporales(carpeta_pfam):
     """Elimina de forma segura la base de datos indexada y los archivos auxiliares binarios."""
     print("\nIniciando limpieza de archivos binarios e índices temporales...")
@@ -157,9 +121,8 @@ def limpiar_archivos_temporales(carpeta_pfam):
 if __name__ == "__main__":
     bin_hmmscan = buscar_binario_wsl("hmmscan")
     bin_hmmpress = buscar_binario_wsl("hmmpress")
-    bin_hmmlogo = buscar_binario_wsl("hmmlogo")
 
-    if not bin_hmmscan or not bin_hmmpress or not bin_hmmlogo:
+    if not bin_hmmscan or not bin_hmmpress:
         print("\n[ERROR CRÍTICO]: Faltan herramientas esenciales de HMMER en WSL Ubuntu.")
         print("Instálalas corriendo: sudo apt-get install -y hmmer\n")
     else:
@@ -169,7 +132,6 @@ if __name__ == "__main__":
             ruta_db_lista = preparar_base_datos_pfam(CARPETA_PFAM, bin_hmmpress)
             if ruta_db_lista:
                 ejecutar_hmmscan(ruta_db_lista, CARPETA_FASTA, CARPETA_RESULTADOS, bin_hmmscan)
-                generar_logos_hmm(CARPETA_PFAM, CARPETA_RESULTADOS, bin_hmmlogo)
                 limpiar_archivos_temporales(CARPETA_PFAM)
                 print("\n[PIPELINE COMPLETADO CON ÉXITO] Procesamiento de HMMER finalizado.")
         except Exception as e:

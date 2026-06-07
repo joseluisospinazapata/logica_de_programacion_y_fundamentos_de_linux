@@ -4,6 +4,6 @@ uniprot_fastas
 control_versiones_uniprot.json
 errores_uniprot.log
 resultados_hmmer
-
-
+.venv-1
+_pycache_
 
