@@ -34,7 +34,7 @@ Instalación: Ubuntu ya incluye Python por defecto. Solo se necesita instalar su
 # 2. Bases de Datos Biológicas (Entradas)
 No se requiere instalar programas para las bases de datos de entrada; Se descargaran por medio de modulos especificos de Python a travez de sus correspondientes APIs, las secuencias y matrices en carpetas locales del proyecto en los formatos estándar de bioinformática.
 
-# 3. HMMER (versión ejecutable en local)
+# 3. HMMER (Versión ejecutable en local)
 Instalación: En la terminal de Ubuntu de WSL, puedes instalar HMMER directamente con el gestor de paquetes de Linux ejecutando el comando:
 "sudo apt install hmmer -y"
 
