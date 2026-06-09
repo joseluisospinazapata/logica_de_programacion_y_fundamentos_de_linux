@@ -16,6 +16,34 @@ P00519, P42684, P12931, P06241, P07947, Q06187, P43403, P43405, P62993, P01112, 
 # Diagrama de flujo:
 <img width="721" height="463" alt="image" src="https://github.com/user-attachments/assets/52d1af1d-faf2-4d2b-998b-029c8ef26c86" />
 
+# Requerimientos del sistema:
+
+# 1. Entorno Base (WSL, VS Code y Python)
+
+# 1.1 Windows Subsystem for Linux (WSL) y Ubuntu
+Como la herramienta central (HMMER) está hecha de forma nativa para Linux, prepararemos un entorno Ubuntu dentro de tu Windows.
+Instalación: Abre la terminal PowerShell de Windows como administrador y escribe el comando: "wsl --install -d Ubuntu".
+Reinicia la computadora si el sistema lo pide. Al abrir Ubuntu por primera vez, te solicitará crear un usuario y una contraseña. Luego abre la aplicación "Ubuntu" en el menú de inicio para interactuar con la terminal Linux mediante comandos de consola.
+
+# 1.2 Visual Studio Code (VS Code)
+Instalación: Descarga e instala el asistente de Windows desde la Página Oficial de VS Code. Una vez dentro de VS Code, ve a la sección de Extensiones (icono de cuadrados a la izquierda) e instala la extensión llamada WSL. Luego en la terminal de Ubuntu escribe "code .". Esto abrirá VS Code de forma automática en Windows, pero ejecutando los archivos y las herramientas directamente dentro del sistema Linux de forma integrada.
+
+# 1.3 Python
+Instalación: Ubuntu ya incluye Python por defecto. Solo se necesita instalar su gestor de paquetes (pip) en la terminal de Ubuntu corriendo el comando: "sudo apt update && sudo apt install python3-pip python3-venv -y", Se crearán scripts con extensión .py dentro de VS Code para gestionar y enlazar los archivos del pipeline.
+
+# 2. Bases de Datos Biológicas (Entradas)
+No se requiere instalar programas para las bases de datos de entrada; Se descargaran por medio de modulos especificos de Python a travez de sus correspondientes APIs, las secuencias y matrices en carpetas locales del proyecto en los formatos estándar de bioinformática.
+
+# 3. HMMER(versión ejecutable local)
+Instalación: En la terminal de Ubuntu de WSL, puedes instalar HMMER directamente con el gestor de paquetes de Linux ejecutando el comando:
+"sudo apt install hmmer -y"
+
+# 4. Formato compatible con HTML5
+Un modulo especifico de Python traducirá los resultados planos de HMMER a un archivo web visual (HTML). Para abrirlos solo necesitas cualquier navegador web moderno (como Google Chrome, Firefox o Microsoft Edge).
+
+
+
+
 
 
 
