@@ -29,12 +29,12 @@ Reinicia la computadora si el sistema lo pide. Al abrir Ubuntu por primera vez, 
 Instalación: Descarga e instala el asistente de Windows desde la Página Oficial de VS Code. Una vez dentro de VS Code, ve a la sección de Extensiones (icono de cuadrados a la izquierda) e instala la extensión llamada WSL. Luego en la terminal de Ubuntu escribe "code .". Esto abrirá VS Code de forma automática en Windows, pero ejecutando los archivos y las herramientas directamente dentro del sistema Linux de forma integrada.
 
 # 1.3 Python
-Instalación: Ubuntu ya incluye Python por defecto. Solo se necesita instalar su gestor de paquetes (pip) en la terminal de Ubuntu corriendo el comando: "sudo apt update && sudo apt install python3-pip python3-venv -y", Se crearán scripts con extensión .py dentro de VS Code para gestionar y enlazar los archivos del pipeline.
+Instalación: Ubuntu ya incluye Python por defecto. Solo se necesita instalar su gestor de paquetes (pip) en la terminal de Ubuntu corriendo el comando: "sudo apt update && sudo apt install python3-pip python3-venv -y", Con esta herramienta se crearán los modulos con extensión .py dentro de VS Code para gestionar y enlazar los archivos del pipeline.
 
 # 2. Bases de Datos Biológicas (Entradas)
 No se requiere instalar programas para las bases de datos de entrada; Se descargaran por medio de modulos especificos de Python a travez de sus correspondientes APIs, las secuencias y matrices en carpetas locales del proyecto en los formatos estándar de bioinformática.
 
-# 3. HMMER(versión ejecutable local)
+# 3. HMMER (versión ejecutable en local)
 Instalación: En la terminal de Ubuntu de WSL, puedes instalar HMMER directamente con el gestor de paquetes de Linux ejecutando el comando:
 "sudo apt install hmmer -y"
 
