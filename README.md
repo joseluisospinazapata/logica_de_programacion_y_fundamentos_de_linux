@@ -129,13 +129,14 @@ Interfaz amigable: La página web creada incluye: Botones desplegables para cada
 # Etapa 4 ejecucion
 
 # Modulo 5 pipeline.py
-Este código es el controlador principal de todo el proyecto bioinformático. Su función es unir los cuatro modulos que se revisaron antes y ejecutarlos uno detrás del otro de forma automática y ordenada.
+Este modulo es el controlador principal de todo el proyecto bioinformático. Su función es unir los cuatro modulos que se revisaron antes y ejecutarlos uno detrás del otro de forma automática y ordenada.
 
+# Pasos del script:
 # 1. Lista de tareas en orden (Pipeline)
 Define las fases: El código invoca los tres primeros modulos en el orden que deben correr: Descarga de familias de proteínas (descarga_pfam.py), descarga de secuencias de proteínas (descarga_UniProt.py) y análisis con HMMER (alineamientos_hmmer.py).
 Sistema de freno de mano: Si uno de los scripts falla o da un error, el código detiene todo el proceso de inmediato y te avisa cuál fue el falló, esto evita que el análisis continúe con datos incompletos o erróneos.
 
-3. Generación del reporte final
+# 2. Generación del reporte final
 Crea la página web: Si los tres modulos anteriores terminan con éxito, el código llama automáticamente al cuarto modulo (clases.py).
 Arma el Dashboard: Lee todos los resultados guardados en la particion de linux y activa la función para crear el archivo interactivo resumen_ejecutivo_hmmer.html.
 
