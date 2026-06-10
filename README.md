@@ -20,7 +20,7 @@ P00519, P42684, P12931, P06241, P07947, Q06187, P43403, P43405, P62993, P01112, 
 
 # 1. Entorno Base (WSL, VS Code y Python)
 
-# 1.1 Windows Subsystem for Linux (WSL) y Ubuntu
+# 1.1 Windows Subsystem for Linux (WSL Ubuntu)
 Como la herramienta central (HMMER) está hecha de forma nativa para Linux, prepararemos un entorno Ubuntu dentro de tu Windows.
 Instalación: Abre la terminal PowerShell de Windows como administrador y escribe el comando: "wsl --install -d Ubuntu".
 Reinicia la computadora si el sistema lo pide. Al abrir Ubuntu por primera vez, te solicitará crear un usuario y una contraseña. Luego abre la aplicación "Ubuntu" en el menú de inicio para interactuar con la terminal Linux mediante comandos de consola.
@@ -31,7 +31,7 @@ Instalación: Descarga e instala el asistente de Windows desde la Página Oficia
 # 1.3 Python
 Instalación: Ubuntu ya incluye Python por defecto. Solo se necesita instalar su gestor de paquetes (pip) en la terminal de Ubuntu corriendo el comando: "sudo apt update && sudo apt install python3-pip python3-venv -y", Con esta herramienta se crearán los modulos con extensión .py dentro de VS Code para gestionar y enlazar los archivos del pipeline.
 
-# 2. Bases de Datos Biológicas (Entradas)
+# 2. Bases de Datos Biológicas (Pfam y UniProt)
 No se requiere instalar programas para las bases de datos de entrada; Se descargaran por medio de modulos especificos de Python a travez de sus correspondientes APIs, las secuencias y matrices en carpetas locales del proyecto en los formatos estándar de bioinformática.
 
 # 3. HMMER (Versión ejecutable en local)
@@ -114,7 +114,7 @@ Borra la basura: Una vez que termina todo el análisis, el script borra de forma
 Este código sirve para organizar los resultados de los análisis de HMMER y crear una página web interactiva (Dashboard) donde revisarlos fácilmente. El script lee los archivos de texto y tablas que generó el programa, extrae los datos importantes y los acomoda en una interfaz visual cómoda.
 
 # Pasos del script:
-# 1. Organización de los datos (Clases)
+# 1. Organización de los datos
 Contenedores de información: Utiliza dos clases (ProteinaEscaneada y ResultadoHMMER). Su trabajo es crear carpetas virtuales en la particion de linux de la computadora para agrupar cada proteína con sus respectivos archivos de texto (.txt) y tablas de datos (.tbl).
 Limpieza de nombres: Extrae y limpia de forma automática el identificador único de la proteína (ID de UniProt) a partir del nombre de los archivos, quitando extensiones y texto extra.
 
@@ -132,7 +132,7 @@ Interfaz amigable: La página web creada incluye: Botones desplegables para cada
 Este modulo es el controlador principal de todo el proyecto bioinformático. Su función es unir los cuatro modulos que se revisaron antes y ejecutarlos uno detrás del otro de forma automática y ordenada.
 
 # Pasos del script:
-# 1. Lista de tareas en orden (Pipeline)
+# 1. Lista de tareas en orden
 Define las fases: El código invoca los tres primeros modulos en el orden que deben correr: Descarga de familias de proteínas (descarga_pfam.py), descarga de secuencias de proteínas (descarga_UniProt.py) y análisis con HMMER (alineamientos_hmmer.py).
 Sistema de freno de mano: Si uno de los scripts falla o da un error, el código detiene todo el proceso de inmediato y te avisa cuál fue el falló, esto evita que el análisis continúe con datos incompletos o erróneos.
 
