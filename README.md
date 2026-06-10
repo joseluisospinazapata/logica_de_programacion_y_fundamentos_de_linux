@@ -49,18 +49,18 @@ Inicialmente se crearon dos modulos separados para esta etapa con el proposito d
 
 # Modulo 1 descarga_pfam.py
 
-Este código sirve para descargar de forma automática los modelos de las familias de proteínas desde el sitio web oficial con los id. accesion de cada familia modelo. El script busca los modelos de una lista de 38 id. accesion de familias de proteínas Pfam, guarda la información en la particion de linux de computadora y la deja lista para usar.
+Este código sirve para descargar de forma automática los modelos de las familias de proteínas desde el sitio web oficial de Pfam con los id. accesion de cada familia modelo. El script busca los modelos de una lista de 38 id. accesion de familias de proteínas Pfam, guarda la información en la particion de linux de computadora y la deja lista para usar.
 
 # Pasos del script:
 # 1. Configuración de seguridad
-Conexión inteligente: Prepara la descarga para que no falle fácilmente. Si el servidor de internet da un error temporal, el script lo vuelve a intentar hasta 3 veces automáticamente.
+Conexión inteligente: Prepara la descarga para que no falle fácilmente. Si el servidor de internet da un error temporal, el script lo vuelve a intentar hasta 3 veces automáticamente. 
 Pausa de cortesía: Espera medio segundo entre cada descarga para no saturar o sobrecargar el servidor web.
 
 #  2. Control de archivos existentes
 Evita repetir trabajo: Antes de descargar una familia de proteínas, revisa si el archivo ya existe en la carpeta. Si ya está ahí, se lo salta para ahorrar tiempo.
 
 # 3. Descarga y revisión del formato
-Descarga: Conecta con la base de datos científica mediante una dirección web dinámica para cada familia de proteína.
+Descarga: Conecta con la base de datos mediante una dirección web dinámica para cada familia de proteína.
 Verificación: Revisa los primeros datos internos (bytes mágicos) para saber si viene comprimido (formato .gz) o si es texto normal.
 Procesamiento: Si está comprimido, lo descomprime. Si es texto normal, solo le cambia el nombre. Al final, todos los archivos quedan guardados con el formato correcto que se necesita (.hmm).
 
@@ -69,6 +69,23 @@ Bitácora: Todo lo que pasa se anota en la consola y en un archivo de texto llam
 
 # Modulo 1 descarga_UniProt.py
 
+Este código sirve para descargar las secuencias de proteínas en formato FASTA desde la base de datos de UniProt. El script revisa una lista de 50 identificadoes de proteínas UniProt, las guarda en la particion de linux de la computadora y utiliza un sistema inteligente para no repetir descargas a menos que la proteína haya cambiado en la base de datos.
+
+# Pasos del script:
+# 1. Control inteligente de versiones (ETags)
+No descarga por descargar: Antes de bajar un archivo, el código hace una pregunta rápida al servidor (HEAD) para revisar la "etiqueta de versión" (llamada ETag) de la proteína. 
+Compara y decide: Guarda estas etiquetas en un archivo llamado "control_versiones_uniprot.json". Si la proteína no ha cambiado en la base de datos, se salta la descarga para ahorrar tiempo.
+Detecta cambios: Si la proteína fue modificada o actualizada en UniProt, el código lo detecta, lanza una alerta y vuelve a descargar la nueva versión.
+
+# 2. Seguridad en las descargas
+Reintentos automáticos: Si la conexión a internet falla por un segundo, el script no se rompe. Vuelve a intentar la descarga hasta 3 veces automáticamente.
+Pausa de cortesia: Espera 0.3 segundos entre cada proteína para no saturar el servidor de UniProt.
+
+# 3. Verificación de archivos reales
+Filtra errores: Cuando descarga el archivo, el script verifica que no esté vacío y que contenga el símbolo ">", que es el inicio obligatorio de cualquier archivo de proteínas tipo FASTA. Si no lo tiene, lo rechaza. 
+
+# 4. Reporte de fallas
+Lista negra: Si una proteína da error al descargar, no existe o el archivo está dañado, el código lo anota todo en un archivo de texto llamado "errores_uniprot.log" junto con la hora exacta y el motivo del fallo.
 
 
 
