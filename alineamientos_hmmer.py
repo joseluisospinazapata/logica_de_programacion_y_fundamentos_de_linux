@@ -1,7 +1,3 @@
-"En bash o terminal, asegúrate de tener HMMER instalado para ejecutar este script. Puedes instalarlo usando:"
-"sudo apt-get install hmmer  # Ubuntu/Debian"
-"brew install hmmer          # macOS"
-
 import os
 import subprocess
 import shutil
