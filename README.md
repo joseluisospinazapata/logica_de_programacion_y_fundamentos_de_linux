@@ -139,7 +139,7 @@ Sistema de freno de mano: Si uno de los scripts falla o da un error, el código 
 Crea la página web: Si los tres modulos anteriores terminan con éxito, el código llama automáticamente al cuarto modulo (clases.py).
 Arma el Dashboard: Lee todos los resultados guardados en la particion de linux y activa la función para crear el archivo interactivo resumen_ejecutivo_hmmer.html.
 
-Puedes ver el [Dashboard Interactivo de resumen ejecutivo hmmer aquí](https://joseluisospinazapata.github.io/logica_de_programacion_y_fundamentos_de_linux/)
+Puedes ver el [Dashboard Interactivo de resumen ejecutivo hmmer aquí](https://joseluisospinazapata.github.io/logica_de_programacion_y_fundamentos_de_linux/resumen_ejecutivo_hmmer.html)
 
 
 
