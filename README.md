@@ -41,6 +41,36 @@ Instalación: En la terminal de Ubuntu de WSL, puedes instalar HMMER directament
 # 4. Formato compatible con HTML5
 Un modulo especifico de Python traducirá los resultados planos de HMMER a un archivo web visual (HTML). Para abrirlos solo necesitas cualquier navegador web moderno (como Google Chrome, Firefox o Microsoft Edge).
 
+# Etapas de la programacion del pipeline
+
+# Etapa 1 descargar.
+
+Inicialmente se crearon dos modulos separados para esta etapa con el proposito de diferenciar las bases de datos oficiales de las cuales se sustraeran los datos especificos del problema.
+
+# Modulo 1 descarga_pfam.py
+
+Este código sirve para descargar de forma automática los modelos de las familias de proteínas desde el sitio web oficial con los id. accesion de cada familia modelo. El script busca los modelos de una lista de 38 id. accesion de familias de proteínas Pfam, guarda la información en la particion de linux de computadora y la deja lista para usar.
+
+# Pasos del script:
+# 1. Configuración de seguridad
+Conexión inteligente: Prepara la descarga para que no falle fácilmente. Si el servidor de internet da un error temporal, el script lo vuelve a intentar hasta 3 veces automáticamente.
+Pausa de cortesía: Espera medio segundo entre cada descarga para no saturar o sobrecargar el servidor web.
+
+#  2. Control de archivos existentes
+Evita repetir trabajo: Antes de descargar una familia de proteínas, revisa si el archivo ya existe en la carpeta. Si ya está ahí, se lo salta para ahorrar tiempo.
+
+# 3. Descarga y revisión del formato
+Descarga: Conecta con la base de datos científica mediante una dirección web dinámica para cada familia de proteína.
+Verificación: Revisa los primeros datos internos (bytes mágicos) para saber si viene comprimido (formato .gz) o si es texto normal.
+Procesamiento: Si está comprimido, lo descomprime. Si es texto normal, solo le cambia el nombre. Al final, todos los archivos quedan guardados con el formato correcto que se necesita (.hmm).
+
+# 4. Registro de actividades (Logs)
+Bitácora: Todo lo que pasa se anota en la consola y en un archivo de texto llamado "registro_descarga.log", Escribe la hora exacta de cada descarga, si tuvo éxito, si falló por culpa de internet o si el archivo ya estaba repetido.
+
+# Modulo 1 descarga_UniProt.py
+
+
+
 
 
 
