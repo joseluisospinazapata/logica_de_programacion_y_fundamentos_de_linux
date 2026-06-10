@@ -93,7 +93,7 @@ Este código sirve para analizar secuencias de proteínas utilizando la herramie
 
 # Pasos del script:
 
-# 1. Validación de herramientas científicas
+# 1. Validación de herramientas
 Busca programas: El código revisa si tu computadora tiene instalados dos programas esenciales llamados "hmmscan" y "hmmpress" (usando el sistema WSL de Ubuntu).
 Filtra errores: Si no encuentra estos programas, el código se detiene y te da las instrucciones exactas en pantalla para instalarlos.
 
