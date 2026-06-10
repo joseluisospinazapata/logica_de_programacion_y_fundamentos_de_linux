@@ -43,7 +43,7 @@ Un modulo especifico de Python traducirá los resultados planos de HMMER a un ar
 
 # Etapas de la programacion del pipeline
 
-# Etapa 1 descargar.
+# Etapa 1 descarga.
 
 Inicialmente se crearon dos modulos separados para esta etapa con el proposito de diferenciar las bases de datos oficiales de las cuales se sustraeran los datos especificos del problema.
 
@@ -86,6 +86,29 @@ Filtra errores: Cuando descarga el archivo, el script verifica que no esté vac�
 
 # 4. Reporte de fallas
 Lista negra: Si una proteína da error al descargar, no existe o el archivo está dañado, el código lo anota todo en un archivo de texto llamado "errores_uniprot.log" junto con la hora exacta y el motivo del fallo.
+
+# Etapa 2 procesamiento
+
+Este código sirve para analizar secuencias de proteínas utilizando la herramienta HMMER. El script toma las familias de proteínas (Pfam) y las secuencias (FASTA) descargadas, las compara entre sí y guarda los resultados del análisis en una carpeta nueva.
+
+# Pasos del script:
+
+# 1. Validación de herramientas científicas
+Busca programas: El código revisa si tu computadora tiene instalados dos programas esenciales llamados "hmmscan" y "hmmpress" (usando el sistema WSL de Ubuntu).
+Filtra errores: Si no encuentra estos programas, el código se detiene y te da las instrucciones exactas en pantalla para instalarlos.
+
+# 2. Creación de una base de datos unificada
+Une los archivos: Toma todos los archivos de familias de proteínas (.hmm) individuales descargados en la carpeta "modelos_hmm_pfam" y crea una base de datos temporal llamada "pfam_db.hmm".
+Optimiza la lectura: Utiliza la herramienta hmmpress para indexar y preparar esa base de datos unificada. Esto hace que las búsquedas futuras sean muchísimo más rápidas.
+
+# 3. Escaneo y análisis de proteínas
+Compara datos: El código toma cada archivo de secuencia de proteína (.fasta) y lo compara contra la base de datos unificada de familias de proteínas.
+Genera reportes: Para cada secuencia analizada, crea dos archivos de texto con los resultados detallados dentro de la carpeta "resultados_hmmer" (resultado_...txt y tabla_...tbl).
+
+# 4. Limpieza automática
+Borra la basura: Una vez que termina todo el análisis, el script borra de forma segura la base de datos unificada y los archivos temporales binarios que creó al inicio para no ocupar espacio innecesario en tu disco duro.
+
+
 
 
 
