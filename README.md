@@ -67,7 +67,7 @@ Procesamiento: Si está comprimido, lo descomprime. Si es texto normal, solo le 
 # 4. Registro de actividades (Logs)
 Bitácora: Todo lo que pasa se anota en la consola y en un archivo de texto llamado "registro_descarga.log", Escribe la hora exacta de cada descarga, si tuvo éxito, si falló por culpa de internet o si el archivo ya estaba repetido.
 
-# Modulo 1 descarga_UniProt.py
+# Modulo 2 descarga_UniProt.py
 
 Este código sirve para descargar las secuencias de proteínas en formato FASTA desde la base de datos de UniProt. El script revisa una lista de 50 identificadoes de proteínas UniProt, las guarda en la particion de linux de la computadora y utiliza un sistema inteligente para no repetir descargas a menos que la proteína haya cambiado en la base de datos.
 
@@ -89,10 +89,10 @@ Lista negra: Si una proteína da error al descargar, no existe o el archivo est�
 
 # Etapa 2 procesamiento
 
+# Modulo 3 alineamientos_hmmer.py
 Este código sirve para analizar secuencias de proteínas utilizando la herramienta HMMER. El script toma las familias de proteínas (Pfam) y las secuencias (FASTA) descargadas, las compara entre sí y guarda los resultados del análisis en una carpeta nueva.
 
 # Pasos del script:
-
 # 1. Validación de herramientas
 Busca programas: El código revisa si tu computadora tiene instalados dos programas esenciales llamados "hmmscan" y "hmmpress" (usando el sistema WSL de Ubuntu).
 Filtra errores: Si no encuentra estos programas, el código se detiene y te da las instrucciones exactas en pantalla para instalarlos.
@@ -107,6 +107,39 @@ Genera reportes: Para cada secuencia analizada, crea dos archivos de texto con l
 
 # 4. Limpieza automática
 Borra la basura: Una vez que termina todo el análisis, el script borra de forma segura la base de datos unificada y los archivos temporales binarios que creó al inicio para no ocupar espacio innecesario en tu disco duro.
+
+# Etapa 3 clasificacion
+
+# Modulo 4 clases.py
+Este código sirve para organizar los resultados de los análisis de HMMER y crear una página web interactiva (Dashboard) donde revisarlos fácilmente. El script lee los archivos de texto y tablas que generó el programa, extrae los datos importantes y los acomoda en una interfaz visual cómoda.
+
+# Pasos del script:
+# 1. Organización de los datos (Clases)
+Contenedores de información: Utiliza dos clases (ProteinaEscaneada y ResultadoHMMER). Su trabajo es crear carpetas virtuales en la particion de linux de la computadora para agrupar cada proteína con sus respectivos archivos de texto (.txt) y tablas de datos (.tbl).
+Limpieza de nombres: Extrae y limpia de forma automática el identificador único de la proteína (ID de UniProt) a partir del nombre de los archivos, quitando extensiones y texto extra.
+
+# 2. Lectura y extracción (Parsing)
+Escaneo de carpetas: Busca dentro de la carpeta de resultados y abre cada archivo guardado.
+Filtro de columnas: Lee las tablas de HMMER línea por línea. Ignora los comentarios y extrae únicamente los datos valiosos, como el nombre de la familia de la proteína, el valor de confianza estadística (E-value), la puntuación (Score) y las posiciones exactas de inicio y fin del alineamiento.
+
+# 3. Creación del Dashboard Web
+Diseña una página web: Aglomera todos los resultados extraídos y genera de forma automática un archivo interactivo llamado "resumen_ejecutivo_hmmer.html".
+Interfaz amigable: La página web creada incluye: Botones desplegables para cada proteína, pestañas para cambiar entre la tabla de resultados y el archivo original con el alineamiento completo en texto plano y por ultimo un diseño visual limpio, tablas y etiquetas para facilitar la lectura.
+
+# Etapa 4 ejecucion
+
+# Modulo 5 pipeline.py
+Este código es el controlador principal de todo el proyecto bioinformático. Su función es unir los cuatro modulos que se revisaron antes y ejecutarlos uno detrás del otro de forma automática y ordenada.
+
+# 1. Lista de tareas en orden (Pipeline)
+Define las fases: El código invoca los tres primeros modulos en el orden que deben correr: Descarga de familias de proteínas (descarga_pfam.py), descarga de secuencias de proteínas (descarga_UniProt.py) y análisis con HMMER (alineamientos_hmmer.py).
+Sistema de freno de mano: Si uno de los scripts falla o da un error, el código detiene todo el proceso de inmediato y te avisa cuál fue el falló, esto evita que el análisis continúe con datos incompletos o erróneos.
+
+3. Generación del reporte final
+Crea la página web: Si los tres modulos anteriores terminan con éxito, el código llama automáticamente al cuarto modulo (clases.py).
+Arma el Dashboard: Lee todos los resultados guardados en la particion de linux y activa la función para crear el archivo interactivo resumen_ejecutivo_hmmer.html.
+
+
 
 
 
